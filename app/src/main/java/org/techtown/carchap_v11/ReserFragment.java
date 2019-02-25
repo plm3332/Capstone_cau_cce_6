@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.techtown.carchap_v11.dummy.DummyContent;
+
 import java.util.ArrayList;
 
 
@@ -27,7 +30,7 @@ import java.util.ArrayList;
  * Use the {@link ReserFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReserFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+public class ReserFragment extends Fragment implements AdapterView.OnItemSelectedListener, ItemFragment.OnListFragmentInteractionListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -70,12 +73,19 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         super.onCreate(savedInstanceState);
 
 
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
 
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        //Toast.makeText(this,item.toString(),Toast.LENGTH_SHORT)
 
     }
 
@@ -91,6 +101,9 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
 
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_reser, container, false);
+        ViewPager viewPager =(ViewPager) view.findViewById(R.id.pager);
+        MyPagerAdapter adapter3 = new MyPagerAdapter(getChildFragmentManager());
+        viewPager.setAdapter(adapter3);
 
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner) view.findViewById(R.id.spinner2);
@@ -104,12 +117,12 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        Log.d("spinner point", String.valueOf(spinner.getId()));
+        Log.d("spinner222 point", String.valueOf(spinner.getId()));
 
         spinner2.setAdapter(adapter2);
         spinner2.setOnItemSelectedListener(this);
         Log.d("spinner2 point",String.valueOf(spinner2.getId()));
-
+        viewPager.refreshDrawableState();
         return view;
     }
 

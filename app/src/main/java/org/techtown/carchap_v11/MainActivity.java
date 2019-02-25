@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private BikeFragment bikeFragment;
     private InfoFragment infoFragment;
     private ReserFragment reserFragment;
+    //private Reser_carchapFragment reser_carchapFragment;
 
 
     private MapPOIItem mDefaultMarker;
@@ -428,4 +430,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         showAll(zoomstartpoint,zoomfinishpoint);
 
     }
+
+
 }
