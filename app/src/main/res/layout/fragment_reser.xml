@@ -115,7 +115,7 @@
             android:layout_below="@+id/spinner"
             android:layout_marginTop="-87dp"
             android:layout_toEndOf="@+id/spinner"
-            android:text="TextView" />
+            android:text="ㅇㅇㅇㅇ" />
 
     </RelativeLayout>
 
