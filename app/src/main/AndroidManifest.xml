@@ -11,8 +11,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/app_logo"
+        android:label="Carchap"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -22,7 +22,7 @@
 
         <activity
             android:name=".Intro"
-            android:label="@string/app_name">
+            android:label="Carchap_v1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,7 +35,8 @@
         <activity android:name=".button_home" />
         <activity android:name=".button_info" />
         <activity android:name=".button_car" />
-        <activity android:name=".button_reser"></activity>
+        <activity android:name=".button_reser" />
+        <activity android:name=".ViewPaser_Reser_Activity" />
     </application>
 
 </manifest>
