@@ -28,7 +28,7 @@ import net.daum.mf.map.api.MapView;
 import java.util.ArrayList;
 
 
-public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFragment.ReserFragmentListener {
+public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_carchap.Reser_carchapFragmentListener {
 
 
 
@@ -146,7 +146,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     private void showAll(MapPoint mapPoint, MapPoint mapPoint2) {
-        int padding = 100;
+        int padding = 200;
         float minZoomLevel = 3;
         float maxZoomLevel = 8;
         MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);

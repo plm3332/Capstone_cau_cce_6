@@ -3,6 +3,7 @@ package org.techtown.carchap_v11;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -83,7 +84,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
 
     }
 
-    @Override
+
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
         //Toast.makeText(this,item.toString(),Toast.LENGTH_SHORT)
 
@@ -102,27 +103,14 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_reser, container, false);
         ViewPager viewPager =(ViewPager) view.findViewById(R.id.pager);
+        TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
+
         MyPagerAdapter adapter3 = new MyPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter3);
 
-        Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
-        Spinner spinner2 = (Spinner) view.findViewById(R.id.spinner2);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.carchap_aqua_start_point_array, android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.carchap_aqua_finish_point_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
-        Log.d("spinner222 point", String.valueOf(spinner.getId()));
-
-        spinner2.setAdapter(adapter2);
-        spinner2.setOnItemSelectedListener(this);
-        Log.d("spinner2 point",String.valueOf(spinner2.getId()));
         viewPager.refreshDrawableState();
+        tabLayout.setupWithViewPager(viewPager);
+
         return view;
     }
 
@@ -169,7 +157,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         if(context instanceof ReserFragmentListener) {
             listener = (ReserFragmentListener) context;
         }else{
-            throw new RuntimeException(context.toString()+"must implement ReserFragmentListener");
+            //throw new RuntimeException(context.toString()+"must implement ReserFragmentListener");
 
         }
     }
