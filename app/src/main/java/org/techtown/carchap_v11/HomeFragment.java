@@ -3,10 +3,13 @@ package org.techtown.carchap_v11;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 /**
@@ -29,19 +32,11 @@ public class HomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    private EditText editText;
+    private EditText editText2;
+    private Button button;
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -64,8 +59,39 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = (View) inflater.inflate(R.layout.fragment_home, container, false);
+        final ConstraintLayout constraintLayout=(ConstraintLayout) view.findViewById(R.id.home_findbar);
+
+        editText = view.findViewById(R.id.editText);
+        editText2 = view.findViewById(R.id.editText2);
+        Button button =(Button)view.findViewById(R.id.button2);
+        Button button2 =(Button)view.findViewById(R.id.button3);
+
+        constraintLayout.setVisibility(View.VISIBLE);
+
+        button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                constraintLayout.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                CharSequence input = editText.getText();
+                CharSequence input2 =editText2.getText();
+                editText.setText(input2);
+                editText2.setText(input);
+
+            }
+        });
+
+        return view;
     }
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -100,4 +126,7 @@ public class HomeFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+
 }

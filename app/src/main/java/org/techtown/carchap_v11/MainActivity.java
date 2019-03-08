@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
         setContentView(R.layout.activity_main);
 
+
         mapView = (MapView)findViewById(R.id.daumMapView);
         //mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
         mapView.setMapViewEventListener(this);
@@ -221,6 +222,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
 
     }
+
 
 
     private void setFragment(Fragment fragment){
