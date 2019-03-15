@@ -1,5 +1,8 @@
 package org.techtown.carchap_v11;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -13,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -27,12 +32,16 @@ import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
 
+import static org.techtown.carchap_v11.R.*;
+import static org.techtown.carchap_v11.R.id.*;
+
 
 public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_carchap.Reser_carchapFragmentListener {
 
 
 
     private MapView mapView;
+
 
     private static final MapPoint default_point = MapPoint.mapPointWithGeoCoord(37.510759, 126.977943);
     private static final MapPoint ichon_point = MapPoint.mapPointWithGeoCoord(37.517090, 126.968893);
@@ -49,6 +58,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private BikeFragment bikeFragment;
     private InfoFragment infoFragment;
     private ReserFragment reserFragment;
+    private CarchapFragment carchapFragment;
     //private Reser_carchapFragment reser_carchapFragment;
 
 
@@ -61,23 +71,30 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
 
 
-        mapView = (MapView)findViewById(R.id.daumMapView);
+        mapView = (MapView)findViewById(daumMapView);
         //mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
         mapView.setMapViewEventListener(this);
 
-        mMainFrame = (FrameLayout) findViewById(R.id.main_frame);
-        mMainNav = (BottomNavigationView)findViewById(R.id.main_nav);
+        mMainFrame = (FrameLayout) findViewById(main_frame);
+        mMainNav = (BottomNavigationView)findViewById(main_nav);
 
         homeFragment = new HomeFragment();
         bikeFragment = new BikeFragment();
         infoFragment = new InfoFragment();
         reserFragment = new ReserFragment();
+        carchapFragment= new CarchapFragment();
 
         setFragment(homeFragment);
 
+
+        //가이드뷰 생성 -> 터치 후 사라짐
+        final ImageButton main_temp_intro=(ImageButton)findViewById(id.imageButton_main_temp);
+        Drawable alpha_main_temp_intro=main_temp_intro.getBackground();
+        alpha_main_temp_intro.setAlpha(20);
+        main_temp_intro.bringToFront();
 
         createbanpoMarker(mapView);
         createichonMarker(mapView);
@@ -90,8 +107,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
 
-                    case R.id.nav_home:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
+                    case nav_home:
+                        mMainNav.setItemBackgroundResource(color.colorPrimary);
                         setFragment(homeFragment);
                         createbanpoMarker(mapView);
                         createichonMarker(mapView);
@@ -100,27 +117,24 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         createttugseomMarker(mapView);
                         return true;
 
-                    case R.id.nav_bike:
-                        mMainNav.setItemBackgroundResource(R.color.colorAccent);
+                    case nav_bike:
+                        mMainNav.setItemBackgroundResource(color.colorAccent);
                         setFragment(bikeFragment);
                         return true;
 
-                    case R.id.nav_pintag:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
-                        setFragment(homeFragment);
-                        createichonMarker(mapView);
-                        createbanpoMarker(mapView);
-                        showAll(ichon_point,banpo_point);
+                    case nav_pintag:
+                        mMainNav.setItemBackgroundResource(color.colorPrimary);
+                        setFragment(carchapFragment);
                         return true;
                         //Toast.makeText(this, "pin tag 찍음",  Toast.LENGTH_SHORT).show();
 
-                    case R.id.nav_reser:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
+                    case nav_reser:
+                        mMainNav.setItemBackgroundResource(color.colorPrimary);
                         setFragment(reserFragment);
                         return true;
 
-                    case R.id.nav_info:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
+                    case nav_info:
+                        mMainNav.setItemBackgroundResource(color.colorPrimary);
                         setFragment(infoFragment);
                         return true;
 
@@ -131,7 +145,18 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         });
 
 
-        ImageButton center_pin=(ImageButton)findViewById(R.id.center_pin);
+        ImageButton center_pin=(ImageButton)findViewById(id.center_pin);
+        main_temp_intro.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                main_temp_intro.setVisibility(View.INVISIBLE);
+
+            }
+
+
+        });
+
 
 
 
@@ -171,6 +196,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
     @Override
     public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
+        Log.d("aa2","aaa");
+
 
     }
 
@@ -187,10 +214,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     @Override
     public void onMapViewDragStarted(MapView mapView, MapPoint mapPoint) {
         Log.d("aa","aaa");
-        ImageButton center_pin=(ImageButton)findViewById(R.id.center_pin);
+        ImageButton center_pin=(ImageButton)findViewById(id.center_pin);
         //센터핀 임시제거
         center_pin.setVisibility(View.INVISIBLE);
 
+        ImageButton main_temp_intro=(ImageButton)findViewById(id.imageButton_main_temp);
+        main_temp_intro.setVisibility(View.INVISIBLE);
     }
 
 
@@ -205,7 +234,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                ImageButton center_pin=(ImageButton)findViewById(R.id.center_pin);
+                ImageButton center_pin=(ImageButton)findViewById(id.center_pin);
                 /*이미 핀 있을때는 계속 보여지게 한다.*/
                 /*Log.d("aa",center_pin.getVisibility());
                 if(==center_pin.getVisibility()) {
@@ -228,7 +257,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private void setFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.main_frame,fragment);
+        fragmentTransaction.replace(main_frame,fragment);
         fragmentTransaction.commit();
     }
 
