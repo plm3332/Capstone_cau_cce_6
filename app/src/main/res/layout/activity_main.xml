@@ -7,6 +7,17 @@
     tools:context=".MainActivity">
 
 
+    <ImageButton
+        android:id="@+id/imageButton_main_temp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:onClick="imageButton_main_temp_clicked"
+        android:scaleType="fitXY"
+        android:src="@drawable/main_temp_intro"
+        android:visibility="visible" />
+
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"

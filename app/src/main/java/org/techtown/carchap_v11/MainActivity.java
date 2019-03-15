@@ -3,9 +3,11 @@ package org.techtown.carchap_v11;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -96,6 +98,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         alpha_main_temp_intro.setAlpha(20);
         main_temp_intro.bringToFront();
 
+        final ConstraintLayout constraintLayout=(ConstraintLayout)findViewById(R.id.home_findbar);
+
         createbanpoMarker(mapView);
         createichonMarker(mapView);
         createjamsilMarker(mapView);
@@ -156,6 +160,10 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
         });
+
+        //상태바 투명상태, 하단바 유지
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);// | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
 
 

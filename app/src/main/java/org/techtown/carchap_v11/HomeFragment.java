@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
         View view = (View) inflater.inflate(R.layout.fragment_home, container, false);
         final ConstraintLayout constraintLayout=(ConstraintLayout) view.findViewById(R.id.home_findbar);
 
+
         //출발지, 도착지 설정, 앱 상단바
         editText = view.findViewById(R.id.editText);
         editText2 = view.findViewById(R.id.editText2);
