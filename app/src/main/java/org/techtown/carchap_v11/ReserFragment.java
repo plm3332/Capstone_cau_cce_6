@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,7 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,9 @@ import android.widget.Toast;
 import org.techtown.carchap_v11.dummy.DummyContent;
 
 import java.util.ArrayList;
+
+import static org.techtown.carchap_v11.R.id.main_frame;
+import static org.techtown.carchap_v11.R.id.reser_scrollview;
 
 
 /**
@@ -38,6 +46,8 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
     private static final String ARG_PARAM2 = "param2";
 
     private ReserFragmentListener listener;
+    private FrameLayout reser_bottom_frame;
+    private FrameLayout reser_carchap;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -103,13 +113,30 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_reser, container, false);
         ViewPager viewPager =(ViewPager) view.findViewById(R.id.pager);
+        final ScrollView scrollView=(ScrollView) view.findViewById(R.id.reser_scrollview);
+        ImageButton imageButton_reser_carpool=(ImageButton) view.findViewById(R.id.imageButton_reser_carpool);
         TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
+        reser_bottom_frame = (FrameLayout) view.findViewById(R.id.reser_scrollview_frag);
+        reser_carchap=(FrameLayout) view.findViewById(R.id.reser_11123);
 
         MyPagerAdapter adapter3 = new MyPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter3);
 
         viewPager.refreshDrawableState();
         tabLayout.setupWithViewPager(viewPager);
+        imageButton_reser_carpool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_carchap();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
 
         return view;
     }
