@@ -18,6 +18,9 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         mdata.add(new ReserFra_carchap());
         mdata.add(new ReserFra_socar());
         mdata.add(new ReserFra_tada());
+        mdata.add(new ReserFra_tada());
+        mdata.add(new ReserFra_tada());
+        mdata.add(new ReserFra_tada());
 
 
     }
@@ -42,6 +45,14 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return "socar";
             case 2:
+                return "tada";
+            case 3:
+                return "tada";
+            case 4:
+                return "tada";
+            case 5:
+                return "tada";
+            case 6:
                 return "tada";
             default:
                 return "??";

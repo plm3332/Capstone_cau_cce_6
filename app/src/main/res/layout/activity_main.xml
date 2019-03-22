@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:cropToPadding="true"
+        android:cropToPadding="false"
         android:onClick="imageButton_main_temp_clicked"
         android:scaleType="fitXY"
         android:src="@drawable/main_temp_intro"

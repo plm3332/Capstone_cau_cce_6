@@ -11,88 +11,82 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Main_underbar"
         android:layout_width="match_parent"
-        android:layout_height="217dp"
+        android:layout_height="250dp"
         android:layout_gravity="bottom"
-        android:background="@android:color/holo_green_light">
+        android:background="@android:color/darker_gray">
 
         <ImageButton
-            android:id="@+id/imageButton_sharebike"
-            android:layout_width="79dp"
-            android:layout_height="45dp"
+            android:id="@+id/imageButton_carchap_carpool"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:src="@android:color/holo_blue_bright"
+            android:src="@drawable/imagebutton_carchap_carpool"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.195" />
-
-        <ImageButton
-            android:id="@+id/imageButton6"
-            android:layout_width="79dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
-            android:src="@android:color/holo_blue_bright"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButton_sharebike"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.195" />
-
-        <ImageButton
-            android:id="@+id/imageButton5"
-            android:layout_width="79dp"
-            android:layout_height="45dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="8dp"
-            android:src="@android:color/holo_blue_bright"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.788" />
-
-        <ImageButton
-            android:id="@+id/imageButton4"
-            android:layout_width="79dp"
-            android:layout_height="45dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="128dp"
-            android:foregroundGravity="center_horizontal"
-            android:src="@android:color/holo_blue_bright"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="79dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="32dp"
-            android:src="@android:color/holo_blue_bright"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButton4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/imageButton_carchap_aqua"
-            android:layout_width="79dp"
-            android:layout_height="45dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:src="@android:color/holo_blue_bright"
+            android:src="@drawable/imagebutton_carchap_aqua"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton_sharebike"
+            app:layout_constraintStart_toEndOf="@+id/imageButton_carchap_carpool"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.195" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageButton
+            android:id="@+id/imageButton_carchar_kickboard"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/imagebutton_carchar_kickboard"
+            app:layout_constraintStart_toEndOf="@+id/imagebutton_carchap_bikesharing"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton_carchap_aqua" />
+
+        <ImageButton
+            android:id="@+id/imagebutton_carchap_bikesharing"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:foregroundGravity="center_horizontal"
+            android:src="@drawable/imagebutton_carchap_bikesharing"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton_carchap_carpool" />
+
+        <ImageButton
+            android:id="@+id/imageButton_carchap_rentcar"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/imagebutton_carchap_rentcar"
+            app:layout_constraintEnd_toStartOf="@+id/imagebutton_carchap_bikesharing"
+            app:layout_constraintTop_toBottomOf="@+id/imageButton_carchap_carsharing" />
+
+        <ImageButton
+            android:id="@+id/imageButton_carchap_carsharing"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/imagebutton_carchap_carsharing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageButton_carchap_carpool"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
