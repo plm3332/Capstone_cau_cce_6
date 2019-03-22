@@ -16,11 +16,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
         mdata= new ArrayList<>();
 
         mdata.add(new ReserFra_carchap());
-        mdata.add(new ReserFra_socar());
-        mdata.add(new ReserFra_tada());
-        mdata.add(new ReserFra_tada());
-        mdata.add(new ReserFra_tada());
-        mdata.add(new ReserFra_tada());
+
 
 
     }

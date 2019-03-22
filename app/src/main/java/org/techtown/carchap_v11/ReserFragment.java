@@ -48,6 +48,12 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
     private ReserFragmentListener listener;
     private FrameLayout reser_bottom_frame;
     private FrameLayout reser_carchap;
+    private FrameLayout reser_carpool;
+    private FrameLayout reser_bikesharing;
+    private FrameLayout reser_carsharing;
+    private FrameLayout reser_deliveryservice;
+    private FrameLayout reser_kickboard;
+    private FrameLayout reser_rentcar;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -117,7 +123,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         ImageButton imageButton_reser_carpool=(ImageButton) view.findViewById(R.id.imageButton_reser_carpool);
         TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
         reser_bottom_frame = (FrameLayout) view.findViewById(R.id.reser_scrollview_frag);
-        reser_carchap=(FrameLayout) view.findViewById(R.id.reser_11123);
+        reser_carchap=(FrameLayout) view.findViewById(R.id.fragment_reser_carchap);
 
         MyPagerAdapter adapter3 = new MyPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter3);
