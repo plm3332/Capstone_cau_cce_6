@@ -1,7 +1,5 @@
 package org.techtown.carchap_v11;
 
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,18 +10,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -31,8 +22,6 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapView;
-
-import java.util.ArrayList;
 
 import static org.techtown.carchap_v11.R.*;
 import static org.techtown.carchap_v11.R.id.*;
@@ -57,7 +46,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
     private HomeFragment homeFragment;
-    private BikeFragment bikeFragment;
+    private AllinoneFragment bikeFragment;
     private InfoFragment infoFragment;
     private ReserFragment reserFragment;
     private CarchapFragment carchapFragment;
@@ -84,7 +73,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mMainNav = (BottomNavigationView)findViewById(main_nav);
 
         homeFragment = new HomeFragment();
-        bikeFragment = new BikeFragment();
+        bikeFragment = new AllinoneFragment();
         infoFragment = new InfoFragment();
         reserFragment = new ReserFragment();
         carchapFragment= new CarchapFragment();

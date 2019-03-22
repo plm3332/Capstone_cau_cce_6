@@ -120,20 +120,116 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         View view = (View) inflater.inflate(R.layout.fragment_reser, container, false);
         ViewPager viewPager =(ViewPager) view.findViewById(R.id.pager);
         final ScrollView scrollView=(ScrollView) view.findViewById(R.id.reser_scrollview);
+
+        /*중간 스크롤뷰 이미지버튼 선언*/
+        ImageButton imageButton_reser_bikesharing=(ImageButton) view.findViewById(R.id.imagebutton_reser_bikesharing);
+        ImageButton imageButton_reser_carchapaqua=(ImageButton) view.findViewById(R.id.imageButton_reserp_aqua1);
         ImageButton imageButton_reser_carpool=(ImageButton) view.findViewById(R.id.imageButton_reser_carpool);
+        ImageButton imageButton_reser_carsharing=(ImageButton) view.findViewById(R.id.imageButton_reser_carsharing);
+        ImageButton imageButton_reser_deliveryservice=(ImageButton) view.findViewById(R.id.imageButton_reser_deliveryservice);
+        ImageButton imageButton_reser_kickboard=(ImageButton) view.findViewById(R.id.imageButton_reser_kickboard);
+        ImageButton imageButton_reser_rentcar=(ImageButton) view.findViewById(R.id.imageButton_reser_rentcar);
         TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
+
+        /*하위 프레그멘트 선언*/
         reser_bottom_frame = (FrameLayout) view.findViewById(R.id.reser_scrollview_frag);
         reser_carchap=(FrameLayout) view.findViewById(R.id.fragment_reser_carchap);
+        reser_bikesharing=(FrameLayout) view.findViewById(R.id.fragment_reser_bikesharing);
+        reser_carpool=(FrameLayout) view.findViewById(R.id.fragment_reser_carpool);
+        reser_carsharing=(FrameLayout) view.findViewById(R.id.fragment_reser_carsharing);
+        reser_deliveryservice=(FrameLayout) view.findViewById(R.id.fragment_reser_deliveryservice);
+        reser_kickboard=(FrameLayout) view.findViewById(R.id.fragment_reser_kickboard);
+        reser_rentcar=(FrameLayout) view.findViewById(R.id.fragment_reser_rentcar);
 
-        MyPagerAdapter adapter3 = new MyPagerAdapter(getChildFragmentManager());
-        viewPager.setAdapter(adapter3);
 
-        viewPager.refreshDrawableState();
-        tabLayout.setupWithViewPager(viewPager);
-        imageButton_reser_carpool.setOnClickListener(new View.OnClickListener() {
+        Fragment fragment = new ReserFra_carpool();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+        fragmentTransaction.commit();
+
+        /*예약 프레그먼트 중간 스크롤뷰 아이콘 클릭 이벤트*/
+        imageButton_reser_bikesharing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_bikesharing();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
+        imageButton_reser_carchapaqua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Fragment fragment = new ReserFra_carchap();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
+        imageButton_reser_carpool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_carpool();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
+        imageButton_reser_carsharing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_carsharing();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
+        imageButton_reser_deliveryservice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_deliveryservice();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
+        imageButton_reser_kickboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_kickboard();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                fragmentTransaction.commit();
+            }
+
+            private FragmentManager getSupportFragmentManager() {
+                return null;
+            }
+        });
+        imageButton_reser_rentcar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new ReserFra_rentcar();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
                 fragmentTransaction.commit();

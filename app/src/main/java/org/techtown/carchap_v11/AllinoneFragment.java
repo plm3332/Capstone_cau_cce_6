@@ -12,12 +12,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BikeFragment.OnFragmentInteractionListener} interface
+ * {@link AllinoneFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BikeFragment#newInstance} factory method to
+ * Use the {@link AllinoneFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BikeFragment extends Fragment {
+public class AllinoneFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +29,7 @@ public class BikeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public BikeFragment() {
+    public AllinoneFragment() {
         // Required empty public constructor
     }
 
@@ -42,8 +42,8 @@ public class BikeFragment extends Fragment {
      * @return A new instance of fragment BikeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BikeFragment newInstance(String param1, String param2) {
-        BikeFragment fragment = new BikeFragment();
+    public static AllinoneFragment newInstance(String param1, String param2) {
+        AllinoneFragment fragment = new AllinoneFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +64,7 @@ public class BikeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bike, container, false);
+        return inflater.inflate(R.layout.fragment_allinone, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
