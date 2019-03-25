@@ -1,13 +1,16 @@
 package org.techtown.carchap_v11;
 
 import android.Manifest;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,9 +30,9 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -39,8 +42,26 @@ import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-import static org.techtown.carchap_v11.R.*;
-import static org.techtown.carchap_v11.R.id.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import static org.techtown.carchap_v11.R.color;
+import static org.techtown.carchap_v11.R.id;
+import static org.techtown.carchap_v11.R.id.daumMapView;
+import static org.techtown.carchap_v11.R.id.list;
+import static org.techtown.carchap_v11.R.id.main_frame;
+import static org.techtown.carchap_v11.R.id.main_nav;
+import static org.techtown.carchap_v11.R.id.nav_bike;
+import static org.techtown.carchap_v11.R.id.nav_home;
+import static org.techtown.carchap_v11.R.id.nav_info;
+import static org.techtown.carchap_v11.R.id.nav_pintag;
+import static org.techtown.carchap_v11.R.id.nav_reser;
+import static org.techtown.carchap_v11.R.layout;
 
 
 public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_carchap.Reser_carchapFragmentListener,MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.CurrentLocationEventListener {
@@ -48,10 +69,13 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
     private MapView mapView;
+
     private MapReverseGeoCoder mReverseGeoCoder = null;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
+
+
 
 
     private static final MapPoint default_point = MapPoint.mapPointWithGeoCoord(37.510759, 126.977943);
@@ -61,6 +85,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private static final MapPoint ttugseom_point = MapPoint.mapPointWithGeoCoord(37.529430, 127.065510);
     private static final MapPoint jamsil_point = MapPoint.mapPointWithGeoCoord(37.518266, 127.081630);
     private static final MapPoint mangwon_point = MapPoint.mapPointWithGeoCoord(37.553422, 126.896874);
+
+
 
 
     private BottomNavigationView mMainNav;
@@ -78,11 +104,18 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(layout.activity_main);
+
+            Log.d("Task3","POST");
+            String temp="1213";
+            AddrHelper addrHelper = new AddrHelper();
+            kakaogetRESTApi kakao= new kakaogetRESTApi();
+            kakao.execute("127.423084873712", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+        Log.d("Task3","POST");
 
 
         mapView = (MapView)findViewById(daumMapView);
@@ -93,11 +126,13 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mMainFrame = (FrameLayout) findViewById(main_frame);
         mMainNav = (BottomNavigationView)findViewById(main_nav);
 
+
         homeFragment = new HomeFragment();
         bikeFragment = new AllinoneFragment();
         infoFragment = new InfoFragment();
         reserFragment = new ReserFragment();
         carchapFragment= new CarchapFragment();
+
 
         setFragment(homeFragment);
 
@@ -110,7 +145,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         }
 
 
-        //가이드뷰 생성 -> 터치 후 사라짐
         final ImageButton main_temp_intro=(ImageButton)findViewById(id.imageButton_main_temp);
         Drawable alpha_main_temp_intro=main_temp_intro.getBackground();
         alpha_main_temp_intro.setAlpha(20);
@@ -166,8 +200,17 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             }
         });
 
-
         ImageButton center_pin=(ImageButton)findViewById(id.center_pin);
+
+        Button button3 = (Button)findViewById(R.id.button);
+        button3.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                mapView.setShowCurrentLocationMarker(true);
+
+            }
+        });
         main_temp_intro.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -203,6 +246,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
+
     }
 
     private void showAll(MapPoint mapPoint, MapPoint mapPoint2) {
@@ -211,6 +255,35 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         float maxZoomLevel = 8;
         MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
+    }
+    public void search(View v){
+        Log.d("11111", String.valueOf(list));
+        EditText edittext3 = (EditText) findViewById(id.editText3);
+        Geocoder coder=new Geocoder(getApplicationContext());
+        String place=edittext3.getText().toString();
+        List<Address> list=null;
+        try {
+            list =coder.getFromLocationName(place,1);
+            Log.d("11111", String.valueOf(list));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Address addr = list.get(0);
+        double lat =addr.getLatitude();
+        double log =addr.getLongitude();
+        mDefaultMarker = new MapPOIItem();
+        String name = "기준점";
+        mDefaultMarker.setItemName(name);
+        mDefaultMarker.setTag(0);
+        mDefaultMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(lat, log));
+        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+
+        mapView.addPOIItem(mDefaultMarker);
+        mapView.selectPOIItem(mDefaultMarker, true);
+        mapView.setMapCenterPoint(default_point, false);
+        //LatLng geoPoint=new LatLng(lat,log);
+        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat, log), true);
     }
 
     @Override
@@ -279,6 +352,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
     }
+
 
 
     @Override
@@ -514,7 +588,9 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     @Override
-    public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float v) {
+    public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float v) {
+        MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
+        Log.i("111", String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, v));
 
     }
 
@@ -532,6 +608,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     public void onCurrentLocationUpdateCancelled(MapView mapView) {
 
     }
+
 
 
     @Override
@@ -570,7 +647,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             if ( check_result ) {
                 Log.d("@@@", "start");
                 //위치 값을 가져올 수 있음
-                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+
             }
             else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
@@ -606,7 +683,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
             // 3.  위치 값을 가져올 수 있음
-            mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+            //mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
 
 
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
@@ -686,4 +763,84 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
+
+
+        private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=%s&y=%s&input_coord=%s";
+
+        public class kakaogetRESTApi extends AsyncTask<String, String, String> {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                Log.d("Task1","POST");
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                Log.d("Task2","POST"+s);
+            }
+
+            @Override
+            protected String doInBackground(String...strings) {
+                Log.d("Task3","POST");
+                String temp="Not Gained";
+                try{
+                    temp= GET(strings[0],strings[1],strings[2]);
+                    Log.d("Task4",temp);
+                    return temp;
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+                return temp;
+            }
+            public String run(String x,String y,String key)throws ExecutionException, InterruptedException{
+                Log.d("Task5","POST");
+                return new kakaogetRESTApi().execute(x,y,key).get().replace("\"","");
+            }
+
+            private String GET(String x,String y, String key) throws IOException {
+                Log.d("Task6","POST");
+                String myUrl = String.format(KAKAO_REST_API, x, y, "WGS84");
+                Log.d("REST GET", "RESQUEST URL = " + myUrl);
+                InputStream inputStream = null;
+                String returnString = "";
+                String retrunValue = "";
+
+                int length = 1024;
+
+                try {
+                    URL url = new URL(myUrl);
+                    Log.d("Task7","POST");
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestProperty("Authorization", "KakaoAK " + key);
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    //conn.setRequestProperty("Query","서울시청");
+                    conn.setRequestProperty("charset", "utf-8");
+                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("GET");
+                    conn.setDoInput(true);
+                    conn.connect();
+                    int response = conn.getResponseCode();
+                    Log.d("REST GET", "The response is :" + response);
+                    inputStream = conn.getInputStream();
+                    JsonObject json = new JsonParser().parse(new InputStreamReader(inputStream, "UTF-8")).getAsJsonObject();
+
+                    json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonObject("address").getAsJsonPrimitive("address_name").toString();
+                    retrunValue = json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonObject("address").getAsJsonPrimitive("address_name").toString();
+                    Log.d("REST GET", "The response is :" + retrunValue);
+                } catch (Exception e) {
+                    Log.e("REST GET", "Error: " + e.getMessage());
+                } finally {
+                    if (inputStream != null)
+                        inputStream.close();
+
+                }
+                return retrunValue;
+            }
+    }
 }
+
