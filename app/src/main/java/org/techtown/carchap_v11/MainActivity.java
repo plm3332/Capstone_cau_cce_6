@@ -110,12 +110,11 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
 
-            Log.d("Task3","POST");
+            Log.d("Task0","POST");
             String temp="1213";
-            AddrHelper addrHelper = new AddrHelper();
             kakaogetRESTApi kakao= new kakaogetRESTApi();
-            kakao.execute("127.423084873712", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
-        Log.d("Task3","POST");
+            kakao.execute("흑석역", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+        Log.d("Task0","POST");
 
 
         mapView = (MapView)findViewById(daumMapView);
@@ -765,7 +764,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
-        private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=%s&y=%s&input_coord=%s";
+        private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/search/keyword.json?query=%s";
 
         public class kakaogetRESTApi extends AsyncTask<String, String, String> {
 
@@ -791,6 +790,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     return temp;
                 }
                 catch (IOException e){
+                    Log.d("Task8", String.valueOf(e));
                     e.printStackTrace();
                 }
                 return temp;
@@ -802,11 +802,13 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
             private String GET(String x,String y, String key) throws IOException {
                 Log.d("Task6","POST");
-                String myUrl = String.format(KAKAO_REST_API, x, y, "WGS84");
+                String myUrl = String.format(KAKAO_REST_API, x);
                 Log.d("REST GET", "RESQUEST URL = " + myUrl);
                 InputStream inputStream = null;
                 String returnString = "";
-                String retrunValue = "";
+                String returnValue = "";
+                String returnValue_x = "";
+                String returnValue_y = "";
 
                 int length = 1024;
 
@@ -817,7 +819,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestProperty("Authorization", "KakaoAK " + key);
                     conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    //conn.setRequestProperty("Query","서울시청");
                     conn.setRequestProperty("charset", "utf-8");
                     conn.setReadTimeout(10000);
                     conn.setConnectTimeout(15000);
@@ -829,9 +830,11 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     inputStream = conn.getInputStream();
                     JsonObject json = new JsonParser().parse(new InputStreamReader(inputStream, "UTF-8")).getAsJsonObject();
 
-                    json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonObject("address").getAsJsonPrimitive("address_name").toString();
-                    retrunValue = json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonObject("address").getAsJsonPrimitive("address_name").toString();
-                    Log.d("REST GET", "The response is :" + retrunValue);
+                    json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
+                    returnValue = json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
+                    returnValue_x=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("x").toString();
+                    returnValue_y=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("y").toString();
+                    Log.d("REST GET", "The response is :" + returnValue + returnValue_x + returnValue_y);
                 } catch (Exception e) {
                     Log.e("REST GET", "Error: " + e.getMessage());
                 } finally {
@@ -839,7 +842,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         inputStream.close();
 
                 }
-                return retrunValue;
+                return returnValue;
             }
     }
 }

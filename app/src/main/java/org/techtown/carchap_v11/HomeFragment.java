@@ -1,6 +1,8 @@
 package org.techtown.carchap_v11;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
+
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -71,6 +79,7 @@ public class HomeFragment extends Fragment {
         Button button =(Button)view.findViewById(R.id.button2);
         Button button2 =(Button)view.findViewById(R.id.button3);
 
+
         constraintLayout.setVisibility(View.VISIBLE);
 
         button.setOnClickListener(new View.OnClickListener(){
@@ -91,8 +100,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+
         return view;
     }
+
 
 
 
