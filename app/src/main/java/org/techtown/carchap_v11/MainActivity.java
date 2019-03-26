@@ -101,7 +101,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     //private Reser_carchapFragment reser_carchapFragment;
 
 
-    private MapPOIItem mDefaultMarker;
+
     static ArrayList<String> kakaoresult= new ArrayList<String>();
 
 
@@ -332,6 +332,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         },1000);
 
 
+
     }
 
 
@@ -353,6 +354,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     /* 선착장 pin 찍기*/
     /*--------------------------------------------------------------*/
     private void createDefaultMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "기준점";
         mDefaultMarker.setItemName(name);
@@ -367,6 +369,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     private void createichonMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "이촌 나루터22222222222";
         mDefaultMarker.setItemName(name);
@@ -379,7 +382,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mapView.selectPOIItem(mDefaultMarker, true);
         mapView.setMapCenterPoint(ichon_point, false);
     }
-    private void createMarker(MapView mapView, String name,MapPoint mapPoint,int setTag, String pin){
+    static public void createMarker(MapView mapView, String name,MapPoint mapPoint,int setTag, String pintype){
+        MapPOIItem mDefaultMarker;
         mDefaultMarker= new MapPOIItem();
         mDefaultMarker.setItemName(name);
         mDefaultMarker.setMapPoint(mapPoint);
@@ -390,6 +394,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     private void createbanpoMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "반포 나루터";
         mDefaultMarker.setItemName(name);
@@ -405,6 +410,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     private void createttugseomMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "뚝섬 나루터";
         mDefaultMarker.setItemName(name);
@@ -419,6 +425,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     private void createjamsilMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "잠실 나루터";
         mDefaultMarker.setItemName(name);
@@ -433,6 +440,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     }
 
     private void createmangwonMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "망원 나루터";
         mDefaultMarker.setItemName(name);
@@ -446,6 +454,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mapView.setMapCenterPoint(mangwon_point, false);
     }
     private void createdongjagMarker(MapView mapView) {
+        MapPOIItem mDefaultMarker;
         mDefaultMarker = new MapPOIItem();
         String name = "동작 나루터";
         mDefaultMarker.setItemName(name);
@@ -826,6 +835,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     returnValue_y=returnValue_y.replace("\"","");
                     Log.d("REST GET", "The response is :" + returnValue + returnValue_x + returnValue_y);
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(returnValue_y), Double.parseDouble(returnValue_x)), true);
+                    createMarker(mapView,returnValue,MapPoint.mapPointWithGeoCoord(Double.parseDouble(returnValue_y), Double.parseDouble(returnValue_x)),1,"keyword");
+
 
                     Log.d("REST GET", "The response is :" +kakaoresult);
                 } catch (Exception e) {
