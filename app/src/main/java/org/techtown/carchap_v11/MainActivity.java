@@ -809,8 +809,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
                 try {
                     URL url = new URL(myUrl);
-                    Log.d("Task7","POST");
-
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestProperty("Authorization", "KakaoAK " + key);
                     conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
