@@ -110,11 +110,11 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_main);
 
-            Log.d("Task0","POST");
+
             String temp="1213";
             kakaogetRESTApi kakao= new kakaogetRESTApi();
             kakao.execute("흑석역", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
-        Log.d("Task0","POST");
+
 
 
         mapView = (MapView)findViewById(daumMapView);
