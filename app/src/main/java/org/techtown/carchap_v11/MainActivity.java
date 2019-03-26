@@ -47,6 +47,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -68,11 +69,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
-    private MapView mapView;
+    static private MapView mapView;
 
     private MapReverseGeoCoder mReverseGeoCoder = null;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    public EditText editText;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
 
 
@@ -100,7 +102,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
     private MapPOIItem mDefaultMarker;
-
+    static ArrayList<String> kakaoresult= new ArrayList<String>();
 
 
 
@@ -111,9 +113,9 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         setContentView(layout.activity_main);
 
 
-            String temp="1213";
-            kakaogetRESTApi kakao= new kakaogetRESTApi();
-            kakao.execute("흑석역", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+       // kakaogetRESTApi kakao= new kakaogetRESTApi();
+       // kakao.execute("흑석역", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+        Log.d("REST Temp22", String.valueOf(kakaoresult));
 
 
 
@@ -134,6 +136,15 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
         setFragment(homeFragment);
+        /*editText = findViewById(R.id.editText);
+        if(editText.getText().toString().length()==0){
+            return;
+        }
+        else{
+            String keyword= String.valueOf(editText.getText());
+            Log.d("keyword",keyword);
+        }*/
+
 
         if (!checkLocationServicesStatus()) {
 
@@ -255,35 +266,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
     }
-    public void search(View v){
-        Log.d("11111", String.valueOf(list));
-        EditText edittext3 = (EditText) findViewById(id.editText3);
-        Geocoder coder=new Geocoder(getApplicationContext());
-        String place=edittext3.getText().toString();
-        List<Address> list=null;
-        try {
-            list =coder.getFromLocationName(place,1);
-            Log.d("11111", String.valueOf(list));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Address addr = list.get(0);
-        double lat =addr.getLatitude();
-        double log =addr.getLongitude();
-        mDefaultMarker = new MapPOIItem();
-        String name = "기준점";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(lat, log));
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(default_point, false);
-        //LatLng geoPoint=new LatLng(lat,log);
-        //mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(lat, log), true);
-    }
 
     @Override
     public void onMapViewInitialized(MapView mapView) {
@@ -396,6 +378,15 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mapView.addPOIItem(mDefaultMarker);
         mapView.selectPOIItem(mDefaultMarker, true);
         mapView.setMapCenterPoint(ichon_point, false);
+    }
+    private void createMarker(MapView mapView, String name,MapPoint mapPoint,int setTag, String pin){
+        mDefaultMarker= new MapPOIItem();
+        mDefaultMarker.setItemName(name);
+        mDefaultMarker.setMapPoint(mapPoint);
+        mDefaultMarker.setTag(setTag);
+        mapView.addPOIItem(mDefaultMarker);
+        mapView.selectPOIItem(mDefaultMarker, true);
+        mapView.setMapCenterPoint(mapPoint, true);
     }
 
     private void createbanpoMarker(MapView mapView) {
@@ -766,7 +757,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
         private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/search/keyword.json?query=%s";
 
-        public class kakaogetRESTApi extends AsyncTask<String, String, String> {
+        public static class kakaogetRESTApi extends AsyncTask<String, String, String> {
 
             @Override
             protected void onPreExecute() {
@@ -784,6 +775,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 String temp="Not Gained";
                 try{
                     temp= GET(strings[0],strings[1],strings[2]);
+                    Log.d("REST", temp);
                     return temp;
                 }
                 catch (IOException e){
@@ -822,12 +814,20 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     Log.d("REST GET", "The response is :" + response);
                     inputStream = conn.getInputStream();
                     JsonObject json = new JsonParser().parse(new InputStreamReader(inputStream, "UTF-8")).getAsJsonObject();
-
                     json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
                     returnValue = json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
                     returnValue_x=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("x").toString();
                     returnValue_y=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("y").toString();
+                    //Log.d("REST GET x", "The response is :" +returnValue_y +returnValue_x+Double.parseDouble(returnValue_y));
+                    kakaoresult.add(returnValue);
+                    kakaoresult.add(returnValue_x);
+                    kakaoresult.add(returnValue_y);
+                    returnValue_x=returnValue_x.replace("\"","");
+                    returnValue_y=returnValue_y.replace("\"","");
                     Log.d("REST GET", "The response is :" + returnValue + returnValue_x + returnValue_y);
+                    mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(returnValue_y), Double.parseDouble(returnValue_x)), true);
+
+                    Log.d("REST GET", "The response is :" +kakaoresult);
                 } catch (Exception e) {
                     Log.e("REST GET", "Error: " + e.getMessage());
                 } finally {
@@ -835,7 +835,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         inputStream.close();
 
                 }
-                return returnValue;
+                return String.valueOf(kakaoresult);
             }
     }
 }

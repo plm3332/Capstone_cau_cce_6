@@ -1,6 +1,7 @@
 package org.techtown.carchap_v11;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -41,9 +43,11 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
 
-    private EditText editText;
-    private EditText editText2;
+    public EditText editText;
+    public EditText editText2;
+
     private Button button;
+    private ImageButton imagebutton;
 
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -78,6 +82,7 @@ public class HomeFragment extends Fragment {
         //X버튼, 출발지<>도착지 교환 버튼
         Button button =(Button)view.findViewById(R.id.button2);
         Button button2 =(Button)view.findViewById(R.id.button3);
+        ImageButton imagebutton=(ImageButton)view.findViewById(R.id.imageButton4);
 
 
         constraintLayout.setVisibility(View.VISIBLE);
@@ -97,6 +102,13 @@ public class HomeFragment extends Fragment {
                 editText.setText(input2);
                 editText2.setText(input);
 
+            }
+        });
+        imagebutton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                MainActivity.kakaogetRESTApi kakao= new MainActivity.kakaogetRESTApi();
+                kakao.execute(editText.getText().toString(), "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
             }
         });
 
