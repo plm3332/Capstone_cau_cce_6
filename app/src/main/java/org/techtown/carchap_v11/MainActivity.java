@@ -368,7 +368,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
     private void createichonMarker(MapView mapView) {
         mDefaultMarker = new MapPOIItem();
-        String name = "이촌 나루터";
+        String name = "이촌 나루터22222222222";
         mDefaultMarker.setItemName(name);
         mDefaultMarker.setTag(0);
         mDefaultMarker.setMapPoint(ichon_point);
