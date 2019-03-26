@@ -80,5 +80,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="43dp"
+            android:layout_height="46dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="340dp" />
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
