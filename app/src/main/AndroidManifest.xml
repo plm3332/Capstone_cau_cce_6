@@ -32,11 +32,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".mapActivity" />
-        <activity android:name=".button_home" />
-        <activity android:name=".button_info" />
-        <activity android:name=".button_car" />
-        <activity android:name=".button_reser" />
-        <activity android:name=".ViewPaser_Reser_Activity" />
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
     </application>
 
 </manifest>
