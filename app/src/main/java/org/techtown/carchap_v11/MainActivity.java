@@ -771,13 +771,11 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                Log.d("Task1","POST");
             }
 
             @Override
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                Log.d("Task2","POST"+s);
             }
 
             @Override
@@ -786,11 +784,9 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 String temp="Not Gained";
                 try{
                     temp= GET(strings[0],strings[1],strings[2]);
-                    Log.d("Task4",temp);
                     return temp;
                 }
                 catch (IOException e){
-                    Log.d("Task8", String.valueOf(e));
                     e.printStackTrace();
                 }
                 return temp;
@@ -801,7 +797,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             }
 
             private String GET(String x,String y, String key) throws IOException {
-                Log.d("Task6","POST");
                 String myUrl = String.format(KAKAO_REST_API, x);
                 Log.d("REST GET", "RESQUEST URL = " + myUrl);
                 InputStream inputStream = null;
