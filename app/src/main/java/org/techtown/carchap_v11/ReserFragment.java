@@ -122,13 +122,13 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         final ScrollView scrollView=(ScrollView) view.findViewById(R.id.reser_scrollview);
 
         /*중간 스크롤뷰 이미지버튼 선언*/
-        ImageButton imageButton_reser_bikesharing=(ImageButton) view.findViewById(R.id.imagebutton_reser_bikesharing);
-        ImageButton imageButton_reser_carchapaqua=(ImageButton) view.findViewById(R.id.imageButton_reserp_aqua1);
-        ImageButton imageButton_reser_carpool=(ImageButton) view.findViewById(R.id.imageButton_reser_carpool);
-        ImageButton imageButton_reser_carsharing=(ImageButton) view.findViewById(R.id.imageButton_reser_carsharing);
-        ImageButton imageButton_reser_deliveryservice=(ImageButton) view.findViewById(R.id.imageButton_reser_deliveryservice);
-        ImageButton imageButton_reser_kickboard=(ImageButton) view.findViewById(R.id.imageButton_reser_kickboard);
-        ImageButton imageButton_reser_rentcar=(ImageButton) view.findViewById(R.id.imageButton_reser_rentcar);
+        final ImageButton imageButton_reser_bikesharing=(ImageButton) view.findViewById(R.id.imagebutton_reser_bikesharing);
+        final ImageButton imageButton_reser_carchapaqua=(ImageButton) view.findViewById(R.id.imageButton_reserp_aqua1);
+        final ImageButton imageButton_reser_carpool=(ImageButton) view.findViewById(R.id.imageButton_reser_carpool);
+        final ImageButton imageButton_reser_carsharing=(ImageButton) view.findViewById(R.id.imageButton_reser_carsharing);
+        final ImageButton imageButton_reser_deliveryservice=(ImageButton) view.findViewById(R.id.imageButton_reser_deliveryservice);
+        final ImageButton imageButton_reser_kickboard=(ImageButton) view.findViewById(R.id.imageButton_reser_kickboard);
+        final ImageButton imageButton_reser_rentcar=(ImageButton) view.findViewById(R.id.imageButton_reser_rentcar);
         TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
 
         /*하위 프레그멘트 선언*/
