@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="bottom"
-        android:background="#f7f8f8">
+        android:background="@drawable/rounded">
 
         <ImageButton
             android:id="@+id/imageButton_carchap_carpool"

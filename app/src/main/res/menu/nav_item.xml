@@ -6,21 +6,22 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home_findpath"
+        app:labelVisibilityMode="labeled"
         />
     <item
         android:id="@+id/nav_reser"
         android:icon="@drawable/home_allinonecarchap"
-        android:title="@string/nav_reser" />
+        app:labelVisibilityMode="labeled"/>
     <item
-        android:id="@+id/nav_pintag"
+        android:id="@+id/nav_pinmove"
         android:icon="@drawable/home_carchap"
-        android:title="@string/nav_pintag" />
+        app:labelVisibilityMode="labeled"/>
     <item
         android:id="@+id/nav_bike"
         android:icon="@drawable/home_carchapforall"
-        android:title="@string/nav_bike" />
+        app:labelVisibilityMode="labeled"/>
     <item
         android:id="@+id/nav_info"
         android:icon="@drawable/home_mypage"
-        android:title="@string/nav_info" />
+        app:labelVisibilityMode="labeled"/>
 </menu>

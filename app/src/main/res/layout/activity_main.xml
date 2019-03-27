@@ -13,22 +13,19 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
-        android:onClick="imageButton_main_temp_clicked"
         android:scaleType="fitXY"
         android:src="@drawable/main_temp_intro"
         android:visibility="visible" />
 
-    <Button
+    <ImageButton
         android:id="@+id/button"
-        android:layout_width="71dp"
-        android:layout_height="69dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
+        android:layout_alignBottom="@+id/main_frame"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="13dp"
-        android:layout_marginTop="78dp"
         android:background="@android:color/transparent"
-        android:onClick="search"
-        android:text="qqw"
+        android:src="@drawable/trackmode_default"
         android:visibility="visible" />
 
     <EditText
@@ -77,8 +74,11 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/nav_item_colors"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:color="#f7f8f8"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@color/colorPrimaryDark"
         app:itemTextColor="@color/nav_item_colors"
         app:menu="@menu/nav_item"></android.support.design.widget.BottomNavigationView>
 

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_gravity="bottom"
-        android:background="#f7f8f8">
+        android:background="@drawable/rounded">
 
 
         <LinearLayout
@@ -24,10 +24,12 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:scrollbars="@null">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
