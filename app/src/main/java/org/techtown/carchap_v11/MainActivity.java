@@ -1,6 +1,7 @@
 package org.techtown.carchap_v11;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,15 +17,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -45,10 +52,12 @@ import net.daum.mf.map.api.MapView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static org.techtown.carchap_v11.R.color;
@@ -60,12 +69,12 @@ import static org.techtown.carchap_v11.R.id.main_nav;
 import static org.techtown.carchap_v11.R.id.nav_bike;
 import static org.techtown.carchap_v11.R.id.nav_home;
 import static org.techtown.carchap_v11.R.id.nav_info;
-import static org.techtown.carchap_v11.R.id.nav_pintag;
+import static org.techtown.carchap_v11.R.id.nav_pinmove;
 import static org.techtown.carchap_v11.R.id.nav_reser;
 import static org.techtown.carchap_v11.R.layout;
 
 
-public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_carchap.Reser_carchapFragmentListener,MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.CurrentLocationEventListener {
+public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_carchap.Reser_carchapFragmentListener,HomeFragment.HomeFragmentListener,MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.CurrentLocationEventListener {
 
 
 
@@ -76,6 +85,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     public EditText editText;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
+    static String polytemp[]={};
 
 
 
@@ -91,14 +101,14 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
-    private BottomNavigationView mMainNav;
+    public BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
     private HomeFragment homeFragment;
     private AllinoneFragment bikeFragment;
     private InfoFragment infoFragment;
     private ReserFragment reserFragment;
     private CarchapFragment carchapFragment;
-    //private Reser_carchapFragment reser_carchapFragment;
+
 
 
 
@@ -113,19 +123,11 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         setContentView(layout.activity_main);
 
 
-       // kakaogetRESTApi kakao= new kakaogetRESTApi();
-       // kakao.execute("흑석역", "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
-        Log.d("REST Temp22", String.valueOf(kakaoresult));
-
-
-
         mapView = (MapView)findViewById(daumMapView);
         //mapView.setDaumMapApiKey(MapApiConst.DAUM_MAPS_ANDROID_APP_API_KEY);
         mapView.setMapViewEventListener(this);
         mapView.setCurrentLocationEventListener(this);
 
-        mMainFrame = (FrameLayout) findViewById(main_frame);
-        mMainNav = (BottomNavigationView)findViewById(main_nav);
 
 
         homeFragment = new HomeFragment();
@@ -136,15 +138,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
         setFragment(homeFragment);
-        /*editText = findViewById(R.id.editText);
-        if(editText.getText().toString().length()==0){
-            return;
-        }
-        else{
-            String keyword= String.valueOf(editText.getText());
-            Log.d("keyword",keyword);
-        }*/
-
 
         if (!checkLocationServicesStatus()) {
 
@@ -162,20 +155,31 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
         final ConstraintLayout constraintLayout=(ConstraintLayout)findViewById(R.id.home_findbar);
 
-        createbanpoMarker(mapView);
-        createichonMarker(mapView);
-        createjamsilMarker(mapView);
-        createmangwonMarker(mapView);
-        createttugseomMarker(mapView);
+        //하단 액션바 아이콘 고정 및 사이즈 조정
+        mMainFrame = (FrameLayout) findViewById(main_frame);
+        BottomNavigationView mMainNav = (BottomNavigationView)findViewById(main_nav);
+        mMainNav.setItemIconSize(120);
+        Log.d("TEST22","@222");
+        BottomNavigationHelper.disableShiftMode(mMainNav);
 
+
+        //하단 액션바 기능
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
 
                     case nav_home:
-                        mMainNav.setItemBackgroundResource(color.colorPrimary);
+                        //mMainNav.setItemBackgroundResource(color.colorPrimary);
                         setFragment(homeFragment);
+                        return true;
+
+                    case nav_bike:
+                        setFragment(bikeFragment);
+                        return true;
+
+                    case nav_pinmove:
+                        setFragment(carchapFragment);
                         createbanpoMarker(mapView);
                         createichonMarker(mapView);
                         createjamsilMarker(mapView);
@@ -183,24 +187,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         createttugseomMarker(mapView);
                         return true;
 
-                    case nav_bike:
-                        mMainNav.setItemBackgroundResource(color.colorAccent);
-                        setFragment(bikeFragment);
-                        return true;
-
-                    case nav_pintag:
-                        mMainNav.setItemBackgroundResource(color.colorPrimary);
-                        setFragment(carchapFragment);
-                        return true;
-                        //Toast.makeText(this, "pin tag 찍음",  Toast.LENGTH_SHORT).show();
 
                     case nav_reser:
-                        mMainNav.setItemBackgroundResource(color.colorPrimary);
                         setFragment(reserFragment);
                         return true;
 
                     case nav_info:
-                        mMainNav.setItemBackgroundResource(color.colorPrimary);
                         setFragment(infoFragment);
                         return true;
 
@@ -212,12 +204,33 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
         ImageButton center_pin=(ImageButton)findViewById(id.center_pin);
 
-        Button button3 = (Button)findViewById(R.id.button);
+        //tracking mode 제어 3종류
+        final ImageButton button3 = (ImageButton)findViewById(R.id.button);
+        button3.bringToFront();
         button3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                mapView.setShowCurrentLocationMarker(true);
+                //button3.setImageResource(R.drawable.center_pin);
+                String trackingcheck="TrackingModeOff";
+                String trackingcheck2="TrackingModeOnWithoutHeading";
+                String trackingcheck3="TrackingModeOnWithHeading";
+                if(trackingcheck.equals(String.valueOf(mapView.getCurrentLocationTrackingMode()))){
+                    mapView.setCurrentLocationTrackingMode((MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading));
+                    mapView.setShowCurrentLocationMarker(true);
+                    button3.setImageResource(R.drawable.trackmode_currentlocation);
+                    Log.d("TEST2", String.valueOf(mapView.getCurrentLocationTrackingMode()));
+                }
+                else if(trackingcheck2.equals(String.valueOf(mapView.getCurrentLocationTrackingMode()))){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+                    mapView.setShowCurrentLocationMarker(true);
+                    button3.setImageResource(R.drawable.trackmode_currentlicationwithheading);
+                }
+                else if(trackingcheck3.equals(String.valueOf(mapView.getCurrentLocationTrackingMode()))){
+                    mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+                    mapView.setShowCurrentLocationMarker(false);
+                    button3.setImageResource(R.drawable.trackmode_default);
+                }
+
 
             }
         });
@@ -237,15 +250,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);// | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
 
-        MapPolyline polyline = new MapPolyline();
-        polyline.setTag(1000);
-        polyline.setLineColor(Color.argb(128, 255, 0, 0)); // Polyline 컬러 지정.
-
-// Polyline 좌표 지정.
-        polyline.addPoint(jamsil_point);
-        polyline.addPoint(banpo_point);
-        polyline.addPoint(ttugseom_point);
-        mapView.addPolyline(polyline);
 
         // 중심점 변경
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.510759, 126.977943), true);
@@ -256,7 +260,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
-
     }
 
     private void showAll(MapPoint mapPoint, MapPoint mapPoint2) {
@@ -264,6 +267,20 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         float minZoomLevel = 3;
         float maxZoomLevel = 8;
         MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);
+        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
+    }
+
+    final private void showpolyline(MapPoint mapPoint, MapPoint mapPoint2){
+        int padding = 200;
+        float minZoomLevel = 3;
+        float maxZoomLevel = 8;
+        MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);
+        MapPolyline polyline = new MapPolyline();
+        polyline.setTag(1000);
+        polyline.setLineColor(Color.argb(128, 255, 51, 0));
+        polyline.addPoint(mapPoint);
+        polyline.addPoint(mapPoint2);
+        mapView.addPolyline(polyline);
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
     }
 
@@ -285,6 +302,10 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     @Override
     public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
         Log.d("aa2","aaa");
+        //키보드 내리기 올리기
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mapView.getWindowToken(),0);
+
 
 
     }
@@ -308,6 +329,10 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
         ImageButton main_temp_intro=(ImageButton)findViewById(id.imageButton_main_temp);
         main_temp_intro.setVisibility(View.INVISIBLE);
+
+        //키보드 내리기 올리기
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mapView.getWindowToken(),0);
     }
 
 
@@ -339,6 +364,9 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
+        //키보드 내리기 올리기
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(mapView.getWindowToken(),0);
 
     }
 
@@ -471,9 +499,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
     CharSequence resentstartiuput;
     CharSequence resentfinishiuput;
+    CharSequence Homestartinput;
+    CharSequence Homefinishinput;
     MapPoint zoomstartpoint;
     MapPoint zoomfinishpoint;
 
+    //carchap_aqua 경로 설정
     @Override
     public void onInputReserF_start_Sent(CharSequence input) {
         Log.d("startpoint",input.toString());
@@ -569,6 +600,21 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
     }
 
+    public void onInputHome_start_Sent(CharSequence input) {
+        String start_string=input.toString();
+        Log.d("TEST start sent", input.toString());
+
+    }
+    public void onInputHome_finish_Sent(CharSequence input) {
+        String finish_string=input.toString();
+        Log.d("TEST finish sent", input.toString());
+
+    }
+
+    public void onInputHome_polyline_Sent(CharSequence input) {
+        polyline_signal=input.toString();
+        Log.d("TEST poly sent", input.toString());
+    }
 
     @Override
     public void onReverseGeoCoderFoundAddress(MapReverseGeoCoder mapReverseGeoCoder, String s) {
@@ -765,8 +811,20 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
         private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/search/keyword.json?query=%s";
-
-        public static class kakaogetRESTApi extends AsyncTask<String, String, String> {
+    static String polyline_signal="";
+        static class kakaogetRESTApi extends AsyncTask<String, String, String> {
+            void showpolyline(MapPoint mapPoint, MapPoint mapPoint2){
+                int padding = 200;
+                float minZoomLevel = 3;
+                float maxZoomLevel = 8;
+                MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);
+                MapPolyline polyline = new MapPolyline();
+                polyline.setTag(1000);
+                polyline.setLineColor(Color.argb(128, 255, 51, 0));
+                polyline.addPoint(mapPoint);
+                polyline.addPoint(mapPoint2);
+                mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
+            }
 
             @Override
             protected void onPreExecute() {
@@ -805,7 +863,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 String returnValue = "";
                 String returnValue_x = "";
                 String returnValue_y = "";
-
+                String returnValue_x2 = "";
+                String returnValue_y2 = "";
                 int length = 1024;
 
                 try {
@@ -827,18 +886,51 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     returnValue = json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
                     returnValue_x=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("x").toString();
                     returnValue_y=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("y").toString();
+
                     //Log.d("REST GET x", "The response is :" +returnValue_y +returnValue_x+Double.parseDouble(returnValue_y));
+
                     kakaoresult.add(returnValue);
                     kakaoresult.add(returnValue_x);
                     kakaoresult.add(returnValue_y);
                     returnValue_x=returnValue_x.replace("\"","");
                     returnValue_y=returnValue_y.replace("\"","");
                     Log.d("REST GET", "The response is :" + returnValue + returnValue_x + returnValue_y);
+                    mapView.removeAllPOIItems();
                     mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(returnValue_y), Double.parseDouble(returnValue_x)), true);
                     createMarker(mapView,returnValue,MapPoint.mapPointWithGeoCoord(Double.parseDouble(returnValue_y), Double.parseDouble(returnValue_x)),1,"keyword");
+                    //MapPoint temp=getmappoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(returnValue_y), Double.parseDouble(returnValue_x)));
+                    Log.d("tttest", "The response is 0 :" +kakaoresult.get(0));
+                    Log.d("tttest", "The response is 1 :" +kakaoresult.get(1));
+                    Log.d("tttest", "The response is 2 :" +kakaoresult.get(2));
+                    Log.d("tttest", "The response is 3 :" +kakaoresult.get(3));
+                    Log.d("tttest", "The response is 4 :" +kakaoresult.get(4));
+                    Log.d("tttest", "The response is 5 :" +kakaoresult.get(5));
+                    Log.d("tttest", "The response is size :" +kakaoresult.size());
+                    mapView.removeAllPolylines();
+                    mapView.removeAllPOIItems();
+                    if(kakaoresult.size()>4){
+                        Log.d("tttest", "The response is size :" +kakaoresult.size());
+                        createMarker(mapView,kakaoresult.get(0),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"","")), Double.parseDouble(kakaoresult.get(1).replace("\"",""))),1,"keyword");
+                        createMarker(mapView,kakaoresult.get(3),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"","")), Double.parseDouble(kakaoresult.get(4).replace("\"",""))),1,"keyword");
+                        MapPolyline polyline = new MapPolyline();
+                        polyline.setTag(1000);
+                        polyline.setLineColor(Color.argb(128, 255, 51, 0));
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"","")), Double.parseDouble(kakaoresult.get(1).replace("\"",""))));
+                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"","")),Double.parseDouble(kakaoresult.get(4).replace("\"",""))));
+                        mapView.addPolyline(polyline);
+                        MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
+                        int padding = 300; // px
+                        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding, 3,8));
+                        //mapView.removeAllPOIItems();
+                        Log.d("Rtttest3", String.valueOf(kakaoresult.size()));
+                        //showpolyline(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5)), Double.parseDouble(kakaoresult.get(4))),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5)), Double.parseDouble(kakaoresult.get(4))));
+                        Log.d("Rtttest3", String.valueOf(kakaoresult.size()));
+                        kakaoresult.clear();
+                    }
 
 
-                    Log.d("REST GET", "The response is :" +kakaoresult);
+
+
                 } catch (Exception e) {
                     Log.e("REST GET", "Error: " + e.getMessage());
                 } finally {
@@ -846,8 +938,21 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         inputStream.close();
 
                 }
+                /*
+                EditText editText=(EditText) getClass().findViewById(id.editText);
+                EditText editText2=findViewById(id.editText2);
+
+                if(editText.getText().toString().length()>0 && editText2.getText().toString().length()>0){
+                    Log.d("REST GET2", "2222222");
+                }*/
                 return String.valueOf(kakaoresult);
-            }
-    }
+            }/*
+            public MapPoint getmappoint(MapPoint mapPoint){
+                MapPoint temp;
+                //temp = MapPoint.mapPointWithGeoCoord(MapPoint.mapPoint);
+                Log.d("TESTtemp", String.valueOf(temp));
+                return temp;}*/
+
+        }
 }
 
