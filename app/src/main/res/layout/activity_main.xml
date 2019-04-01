@@ -74,12 +74,12 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:color="#f7f8f8"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:color="#f7f8f8"
-        app:labelVisibilityMode="unlabeled"
         app:itemIconTint="@color/colorPrimaryDark"
         app:itemTextColor="@color/nav_item_colors"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/nav_item"></android.support.design.widget.BottomNavigationView>
 
 

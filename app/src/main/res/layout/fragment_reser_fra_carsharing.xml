@@ -44,5 +44,15 @@
             android:scaleType="fitXY"
             android:src="@drawable/carsharing_dealcar_bar" />
 
+        <ImageButton
+            android:id="@+id/imageButton_piplecar"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/carsharing_pipolecar_bar" />
+
     </LinearLayout>
 </FrameLayout>

@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private HomeFragmentListener listener;
 
 
     public EditText editText;
@@ -104,20 +105,48 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
         imagebutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+
+                CharSequence find_path;
                 MainActivity.kakaogetRESTApi kakao= new MainActivity.kakaogetRESTApi();
                 kakao.execute(editText.getText().toString(), "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+                MainActivity.kakaogetRESTApi kakao2= new MainActivity.kakaogetRESTApi();
+                kakao2.execute(editText2.getText().toString(), "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+
+                if(editText.getText().toString().length()>0){
+                    CharSequence input=editText.getText().toString();
+                    listener.onInputHome_start_Sent(input);
+                }
+                if(editText2.getText().toString().length()>0){
+                    CharSequence input=editText2.getText().toString();
+                    listener.onInputHome_finish_Sent(input);
+                }
+
+                if(editText.getText().toString().length()>0&&editText2.getText().toString().length()>0){
+                    CharSequence input="start";
+                    listener.onInputHome_polyline_Sent(input);
+                }
+
+
+
             }
         });
 
-
-
         return view;
+
     }
 
+    public interface HomeFragmentListener{
+        void onInputHome_start_Sent(CharSequence startinput);
+        void onInputHome_finish_Sent(CharSequence finishinput);
+        void onInputHome_polyline_Sent(CharSequence polylineinput);
 
+
+
+    }
 
 
 
@@ -131,6 +160,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if(context instanceof HomeFragmentListener) {
+            listener = (HomeFragmentListener) context;
+        }else{
+            // throw new RuntimeException(context.toString()+"must implement ReserFragmentListener");
+
+        }
+
     }
 
 

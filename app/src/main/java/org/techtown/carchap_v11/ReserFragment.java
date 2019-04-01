@@ -268,6 +268,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
 
     }
 
+
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -315,6 +316,8 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }
 
 

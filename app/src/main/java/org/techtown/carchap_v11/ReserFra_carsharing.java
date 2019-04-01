@@ -1,11 +1,15 @@
 package org.techtown.carchap_v11;
 
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 
 /**
@@ -23,7 +27,75 @@ public class ReserFra_carsharing extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reser_fra_carsharing, container, false);
+        View view = (View) inflater.inflate(R.layout.fragment_reser_fra_carsharing, container, false);
+
+        ImageButton imagebutton_socar = (ImageButton) view.findViewById(R.id.imageButton_socar);
+        ImageButton imagebutton_greencar = (ImageButton) view.findViewById(R.id.imageButton_greencar);
+        ImageButton imagebutton_dealcar = (ImageButton) view.findViewById(R.id.imageButton_dealcar);
+        ImageButton imagebutton_piplecar = (ImageButton) view.findViewById(R.id.imageButton_piplecar);
+
+        imagebutton_socar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Appinstallcheck("socar.Socar");
+            }
+
+        });
+
+        imagebutton_greencar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Appinstallcheck("com.greencar");
+            }
+
+        });
+
+        imagebutton_dealcar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Appinstallcheck("com.hcs.duser");
+            }
+
+        });
+        imagebutton_piplecar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Appinstallcheck("kr.co.peaplecar");
+            }
+
+        });
+        return view;
     }
 
+    public void Appinstallcheck(String x){
+        String url=x;
+
+        boolean isAppInstalled = appInstalledOrNot(url);
+
+        if(isAppInstalled) {
+            //This intent will help you to launch if the package is already installed
+            Intent LaunchIntent = getActivity().getPackageManager()
+                    .getLaunchIntentForPackage(url);
+            startActivity(LaunchIntent);
+
+
+        } else {
+            String url2="market://details?id="+url;
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url2));
+            startActivity(i);
+
+        }
+    }
+
+    private boolean appInstalledOrNot(String uri) {
+        PackageManager pm = getActivity().getPackageManager();
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return false;
+
+    }
 }

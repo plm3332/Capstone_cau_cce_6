@@ -53,6 +53,16 @@
             android:scaleType="fitXY"
             android:src="@drawable/carpool_uber_bar" />
 
+        <ImageButton
+            android:id="@+id/imageButton_adigo"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@null"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/carpool_adigo_bar" />
+
     </LinearLayout>
 
 </FrameLayout>
