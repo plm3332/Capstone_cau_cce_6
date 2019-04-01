@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/imageButton_gogovan"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -24,7 +24,7 @@
             android:src="@drawable/deliveryservice_gogovan_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton14"
+            android:id="@+id/imageButton_vroong"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"

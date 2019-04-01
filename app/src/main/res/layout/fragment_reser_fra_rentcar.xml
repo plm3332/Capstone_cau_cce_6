@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButton14"
+            android:id="@+id/imageButton_rentnow"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -24,7 +24,7 @@
             android:src="@drawable/rentcar_rentnow_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/imageButton_carplat"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -34,7 +34,7 @@
             android:src="@drawable/rentcar_carplat_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/imageButton_carmoa"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -44,7 +44,7 @@
             android:src="@drawable/rentcar_carmoa_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton8"
+            android:id="@+id/imageButton_ppongcar"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"

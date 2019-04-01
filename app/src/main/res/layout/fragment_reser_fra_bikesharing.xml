@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/imageButton10"
+            android:id="@+id/imageButton_ddarong"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -24,7 +24,7 @@
             android:src="@drawable/bikesharing_ddarong_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton15"
+            android:id="@+id/imageButton_gbility"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -34,7 +34,7 @@
             android:src="@drawable/bikesharing_gbility_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/imageButton_sbike"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -44,7 +44,7 @@
             android:src="@drawable/bikesharing_sbike_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton8"
+            android:id="@+id/imageButton_cookie"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -54,7 +54,7 @@
             android:src="@drawable/bikesharing_cookie_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton12"
+            android:id="@+id/imageButton_obike"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -64,7 +64,7 @@
             android:src="@drawable/bikesharing_obike_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/imageButton_mobike"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -74,7 +74,7 @@
             android:src="@drawable/bikesharing_mobike_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton11"
+            android:id="@+id/imageButton_fifteen"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -84,7 +84,7 @@
             android:src="@drawable/bikesharing_fifteen_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton13"
+            android:id="@+id/imageButton_pedalro"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -94,7 +94,7 @@
             android:src="@drawable/bikesharing_pedalro_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton9"
+            android:id="@+id/imageButton_lycle"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
@@ -104,7 +104,7 @@
             android:src="@drawable/bikesharing_lycle_bar" />
 
         <ImageButton
-            android:id="@+id/imageButton91"
+            android:id="@+id/imageButton_kakaobike"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@null"
