@@ -36,6 +36,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -48,6 +49,8 @@ import net.daum.mf.map.api.MapPointBounds;
 import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -152,6 +155,10 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         Drawable alpha_main_temp_intro=main_temp_intro.getBackground();
         alpha_main_temp_intro.setAlpha(20);
         main_temp_intro.bringToFront();
+
+        final TextView main_current_location=(TextView) findViewById(R.id.current_location);
+
+
 
         final ConstraintLayout constraintLayout=(ConstraintLayout)findViewById(R.id.home_findbar);
 
@@ -333,6 +340,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         //키보드 내리기 올리기
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mapView.getWindowToken(),0);
+
+        //tracking mode 해체
+        ImageButton button3 = (ImageButton)findViewById(R.id.button);
+        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+        mapView.setShowCurrentLocationMarker(false);
+        button3.setImageResource(R.drawable.trackmode_default);
     }
 
 
@@ -630,6 +643,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private void onFinishReverseGeoCoding(String result) {
         Toast.makeText(MainActivity.this, "Reverse Geo-coding : " + result, Toast.LENGTH_SHORT).show();
         Log.d("11111111","11111113");
+
     }
 
     @Override
