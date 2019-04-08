@@ -13,21 +13,12 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="fitXY"
         android:src="@drawable/main_temp_intro"
-        android:visibility="visible" />
-
-    <ImageButton
-        android:id="@+id/button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:scaleType="fitXY"
-        android:layout_alignBottom="@+id/main_frame"
-        android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/trackmode_default"
         android:visibility="visible" />
 
     <EditText
@@ -82,22 +73,36 @@
             android:gravity="center_vertical|center_horizontal"
             android:textAlignment="center" />
 
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/main_frame"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/trackmode_default"
+            android:visibility="visible" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/main_nav"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#f7f8f8"
+            android:color="#f7f8f8"
+            app:itemIconTint="@color/colorPrimaryDark"
+            app:itemTextColor="@color/nav_item_colors"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/nav_item"></android.support.design.widget.BottomNavigationView>
+
 
     </FrameLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/main_nav"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:color="#f7f8f8"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        app:itemIconTint="@color/colorPrimaryDark"
-        app:itemTextColor="@color/nav_item_colors"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/nav_item"></android.support.design.widget.BottomNavigationView>
 
 
 </RelativeLayout>
