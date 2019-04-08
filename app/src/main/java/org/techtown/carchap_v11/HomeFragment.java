@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,11 @@ public class HomeFragment extends Fragment {
 
         constraintLayout.setVisibility(View.VISIBLE);
 
+        String current_location="";
+        //Log.d("HomeFragment_current_location_test3:", String.valueOf(bundle));
+        Log.v("HomeFragment_current_location_test3","Param1 : "+mParam1 + " Param2 :"+mParam2);
+        editText2.setText(mParam2);
+
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -134,6 +140,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
 
         return view;
 

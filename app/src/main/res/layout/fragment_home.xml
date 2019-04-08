@@ -16,7 +16,6 @@
         android:background="@drawable/home_findbar">
 
 
-
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"

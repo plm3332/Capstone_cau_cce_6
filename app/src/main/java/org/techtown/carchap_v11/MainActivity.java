@@ -2,7 +2,9 @@ package org.techtown.carchap_v11;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,6 +12,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -23,6 +27,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
@@ -60,11 +65,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import static org.techtown.carchap_v11.R.color;
 import static org.techtown.carchap_v11.R.id;
+import static org.techtown.carchap_v11.R.id.current_location;
 import static org.techtown.carchap_v11.R.id.daumMapView;
 import static org.techtown.carchap_v11.R.id.list;
 import static org.techtown.carchap_v11.R.id.main_frame;
@@ -113,9 +120,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private CarchapFragment carchapFragment;
 
 
-
+    private LocationManager locationManager;
+    private static final int REQUEST_CODE_LOCATIOM=2;
 
     static ArrayList<String> kakaoresult= new ArrayList<String>();
+
+
 
 
 
@@ -151,12 +161,13 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         }
 
 
+
+
         final ImageButton main_temp_intro=(ImageButton)findViewById(id.imageButton_main_temp);
         Drawable alpha_main_temp_intro=main_temp_intro.getBackground();
         alpha_main_temp_intro.setAlpha(20);
         main_temp_intro.bringToFront();
 
-        final TextView main_current_location=(TextView) findViewById(R.id.current_location);
 
 
 
@@ -187,11 +198,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
                     case nav_pinmove:
                         setFragment(carchapFragment);
-                        createbanpoMarker(mapView);
-                        createichonMarker(mapView);
-                        createjamsilMarker(mapView);
-                        createmangwonMarker(mapView);
-                        createttugseomMarker(mapView);
                         return true;
 
 
@@ -226,6 +232,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     mapView.setShowCurrentLocationMarker(true);
                     button3.setImageResource(R.drawable.trackmode_currentlocation);
                     Log.d("TEST2", String.valueOf(mapView.getCurrentLocationTrackingMode()));
+
                 }
                 else if(trackingcheck2.equals(String.valueOf(mapView.getCurrentLocationTrackingMode()))){
                     mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
@@ -258,13 +265,38 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
+
         // 중심점 변경
-        mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.510759, 126.977943), true);
-        mReverseGeoCoder = new MapReverseGeoCoder("80042944961bf7e2672a63faefa4ad36", mapView.getMapCenterPoint(), MainActivity.this, MainActivity.this);
-        mReverseGeoCoder.startFindingAddress();
+
+
+
         // 줌 레벨 변경
         mapView.setZoomLevel(5, true);
+        final TextView main_current_location=(TextView) findViewById(R.id.current_location);
+        editText =findViewById(R.id.editText);
 
+        main_current_location.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Fragment fragment=new HomeFragment();
+                Bundle bundle=new Bundle();
+                if(bundle!=null) {
+                    Log.d("HomeFragment_current_location_test1 :", main_current_location.getText().toString());
+                    bundle.putString("current_location", main_current_location.getText().toString());
+                    Log.d("HomeFragment_current_location_test2 :", String.valueOf(bundle));
+                    fragment.setArguments(bundle);
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction  = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(main_frame,  homeFragment.newInstance("current_location",main_current_location.getText().toString()));
+                    fragmentTransaction.commit();
+
+                }
+
+            }
+
+
+        });
 
 
     }
@@ -346,13 +378,13 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
         mapView.setShowCurrentLocationMarker(false);
         button3.setImageResource(R.drawable.trackmode_default);
+
     }
 
 
     @Override
     public void onMapViewDragEnded(MapView mapView, MapPoint mapPoint) {
-        MapPoint.GeoCoordinate mapPointGeo = mapView.getMapCenterPoint().getMapPointGeoCoord();
-        //Toast.makeText(this, "중심좌표" + "x:"+mapPointGeo.latitude + "y:"+mapPointGeo.longitude, Toast.LENGTH_SHORT).show();
+
 
 
         /* 메인 중앙 핀!!*/
@@ -373,6 +405,53 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
     }
 
+    public String getAddress(Context mContext, double lat, double lng) {
+        String nowAddress ="현재 위치를 확인 할 수 없습니다.";
+        Geocoder geocoder = new Geocoder(mContext, Locale.KOREA);
+        List <Address> address;
+        try {
+            if (geocoder != null) {
+                //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
+                //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
+                address = geocoder.getFromLocation(lat, lng, 1);
+
+                if (address != null && address.size() > 0) {
+                    // 주소 받아오기
+                    String currentLocationAddress = address.get(0).getAddressLine(0).toString();
+                    nowAddress  = currentLocationAddress;
+
+                }
+            }
+
+        } catch (IOException e) {
+            Toast.makeText(MainActivity.this,"잘못된 포인트 설정입니다.",Toast.LENGTH_SHORT).show();
+
+            e.printStackTrace();
+        }
+        return nowAddress;
+    }
+
+    final LocationListener gpsLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+
+            String provider = location.getProvider();
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            double altitude = location.getAltitude();
+
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+    };
+
+
 
 
     @Override
@@ -380,6 +459,39 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         //키보드 내리기 올리기
         InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(mapView.getWindowToken(),0);
+
+        /*현재 위치 받아와서 textview에 띄우기*/
+        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        TextView main_current_location=(TextView) findViewById(R.id.current_location);
+
+        if ( Build.VERSION.SDK_INT >= 23 &&
+                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions( MainActivity.this, new String[] {  android.Manifest.permission.ACCESS_FINE_LOCATION  },
+                    0 );
+        }
+        else{
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            String provider = location.getProvider();
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            double altitude = location.getAltitude();
+            MapPoint current_location_point = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+            MapPoint.GeoCoordinate mapPointGeo = mapView.getMapCenterPoint().getMapPointGeoCoord();
+            String temp=getAddress(MainActivity.this.getBaseContext(),mapPointGeo.latitude,mapPointGeo.longitude);
+            temp=temp.replace("대한민국","");
+            main_current_location.setText(temp);
+
+
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    1000,
+                    1,
+                    gpsLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                    1000,
+                    1,
+                    gpsLocationListener);
+        }
+
 
     }
 
@@ -392,37 +504,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         fragmentTransaction.commit();
     }
 
-    /* 선착장 pin 찍기*/
-    /*--------------------------------------------------------------*/
-    private void createDefaultMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "기준점";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(default_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
 
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(default_point, false);
-    }
-
-    private void createichonMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "이촌 나루터22222222222";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(ichon_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(ichon_point, false);
-    }
     static public void createMarker(MapView mapView, String name,MapPoint mapPoint,int setTag, String pintype){
         MapPOIItem mDefaultMarker;
         mDefaultMarker= new MapPOIItem();
@@ -434,80 +516,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mapView.setMapCenterPoint(mapPoint, true);
     }
 
-    private void createbanpoMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "반포 나루터";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(banpo_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(banpo_point, false);
-    }
-
-    private void createttugseomMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "뚝섬 나루터";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(ttugseom_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(ttugseom_point, false);
-    }
-
-    private void createjamsilMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "잠실 나루터";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(jamsil_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(jamsil_point, false);
-    }
-
-    private void createmangwonMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "망원 나루터";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(mangwon_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(mangwon_point, false);
-    }
-    private void createdongjagMarker(MapView mapView) {
-        MapPOIItem mDefaultMarker;
-        mDefaultMarker = new MapPOIItem();
-        String name = "동작 나루터";
-        mDefaultMarker.setItemName(name);
-        mDefaultMarker.setTag(0);
-        mDefaultMarker.setMapPoint(dongjag_point);
-        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.BluePin);
-        mDefaultMarker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-
-        mapView.addPOIItem(mDefaultMarker);
-        mapView.selectPOIItem(mDefaultMarker, true);
-        mapView.setMapCenterPoint(dongjag_point, false);
-    }
 
 
     CharSequence resentstartiuput;
@@ -528,37 +536,31 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         }
         else if(input.equals("이촌")){
             mapView.removeAllPOIItems();
-            createichonMarker(mapView);
             mapView.setMapCenterPoint(ichon_point, true);
             zoomstartpoint=ichon_point;
         }
         else if(input.equals("동작")){
             mapView.removeAllPOIItems();
-            createdongjagMarker(mapView);
             mapView.setMapCenterPoint(dongjag_point, true);
             zoomstartpoint=dongjag_point;
         }
         else if(input.equals("반포")){
             mapView.removeAllPOIItems();
-            createbanpoMarker(mapView);
             mapView.setMapCenterPoint(banpo_point, true);
             zoomstartpoint=banpo_point;
         }
         else if(input.equals("뚝섬")){
             mapView.removeAllPOIItems();
-            createttugseomMarker(mapView);
             mapView.setMapCenterPoint(ttugseom_point, true);
             zoomstartpoint=ttugseom_point;
         }
         else if(input.equals("잠실")){
             mapView.removeAllPOIItems();
-            createjamsilMarker(mapView);
             mapView.setMapCenterPoint(jamsil_point, true);
             zoomstartpoint=jamsil_point;
         }
         else if(input.equals("망원")){
             mapView.removeAllPOIItems();
-            createmangwonMarker(mapView);
             mapView.setMapCenterPoint(mangwon_point, true);
             zoomstartpoint=mangwon_point;
         }
@@ -580,29 +582,23 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             Log.d("temp point", String.valueOf(resentfinishiuput));
         }
         else if(input.equals("이촌")){
-            createichonMarker(mapView);
             zoomfinishpoint=ichon_point;
 
         }
         else if(input.equals("동작")){
-            createdongjagMarker(mapView);
             zoomfinishpoint=dongjag_point;
         }
         else if(input.equals("반포")){
-            createbanpoMarker(mapView);
             zoomfinishpoint=banpo_point;
         }
         else if(input.equals("뚝섬")){
-            createttugseomMarker(mapView);
             zoomfinishpoint=ttugseom_point;
         }
         else if(input.equals("잠실")){
-            createjamsilMarker(mapView);
             zoomfinishpoint=jamsil_point;
 
         }
         else if(input.equals("망원")){
-            createmangwonMarker(mapView);
             zoomfinishpoint=mangwon_point;
         }
         else{
