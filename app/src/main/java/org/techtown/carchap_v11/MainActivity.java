@@ -168,7 +168,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         alpha_main_temp_intro.setAlpha(20);
         main_temp_intro.bringToFront();
 
-
+        //testestestsetsetsetsetse
 
 
 
