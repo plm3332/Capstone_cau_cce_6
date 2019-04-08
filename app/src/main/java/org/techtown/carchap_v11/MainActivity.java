@@ -171,6 +171,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
+
         final ConstraintLayout constraintLayout=(ConstraintLayout)findViewById(R.id.home_findbar);
 
         //하단 액션바 아이콘 고정 및 사이즈 조정
