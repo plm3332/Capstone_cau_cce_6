@@ -218,6 +218,30 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         });
 
         ImageButton center_pin=(ImageButton)findViewById(id.center_pin);
+        final Button map_zoomin=(Button)findViewById(id.map_zoomin);
+        Button map_zoomout=(Button)findViewById(id.map_zoomout);
+        map_zoomin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                int current_zoomlevel=0;
+                current_zoomlevel=mapView.getZoomLevel();
+                current_zoomlevel-=1;
+                mapView.setZoomLevel(current_zoomlevel, true);
+
+            }
+        });
+        map_zoomout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                int current_zoomlevel=0;
+                current_zoomlevel=mapView.getZoomLevel();
+                current_zoomlevel+=1;
+                mapView.setZoomLevel(current_zoomlevel, true);
+
+            }
+        });
+
+
 
         //tracking mode 제어 3종류
         final ImageButton button3 = (ImageButton)findViewById(R.id.button);
