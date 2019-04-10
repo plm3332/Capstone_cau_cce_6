@@ -114,6 +114,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     public BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
     private HomeFragment homeFragment;
+    private HomeFragment_first homeFragment_first;
     private AllinoneFragment bikeFragment;
     private InfoFragment infoFragment;
     private ReserFragment reserFragment;
@@ -144,13 +145,14 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
         homeFragment = new HomeFragment();
+        homeFragment_first = new HomeFragment_first();
         bikeFragment = new AllinoneFragment();
         infoFragment = new InfoFragment();
         reserFragment = new ReserFragment();
         carchapFragment= new CarchapFragment();
 
 
-        setFragment(homeFragment);
+        setFragment(homeFragment_first);
 
         if (!checkLocationServicesStatus()) {
 
@@ -168,7 +170,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         alpha_main_temp_intro.setAlpha(20);
         main_temp_intro.bringToFront();
 
-        //testestestsetsetsetsetse
+
 
 
 
@@ -189,8 +191,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 switch (menuItem.getItemId()){
 
                     case nav_home:
-                        //mMainNav.setItemBackgroundResource(color.colorPrimary);
-                        setFragment(homeFragment);
+                        setFragment(homeFragment_first);
                         return true;
 
                     case nav_bike:
@@ -920,11 +921,14 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     mapView.removeAllPolylines();
                     mapView.removeAllPOIItems();
                     if(kakaoresult.size()>4){
-                        Log.d("tttest", "The response is size :" +kakaoresult.size());
+                        Log.d("drag_button_test1","if문 돌입");
                         createMarker(mapView,kakaoresult.get(0),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"","")), Double.parseDouble(kakaoresult.get(1).replace("\"",""))),1,"keyword");
                         createMarker(mapView,kakaoresult.get(3),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"","")), Double.parseDouble(kakaoresult.get(4).replace("\"",""))),1,"keyword");
+                        createMarker(mapView,kakaoresult.get(3),MapPoint.mapPointWithGeoCoord((Double.parseDouble(kakaoresult.get(2).replace("\"",""))+Double.parseDouble(kakaoresult.get(5).replace("\"","")))/2,(Double.parseDouble(kakaoresult.get(1).replace("\"",""))+Double.parseDouble(kakaoresult.get(4).replace("\"","")))/2),1,"keyword");
+                        Log.d("drag_button_test2", String.valueOf((Double.parseDouble(kakaoresult.get(1).replace("\"",""))+Double.parseDouble(kakaoresult.get(4).replace("\"","")))/2));
+                                //(Double.parseDouble(kakaoresult.get(2).replace("\"","")))
                         MapPolyline polyline = new MapPolyline();
-                        polyline.setTag(1000);
+                        polyline.setTag(1001);
                         polyline.setLineColor(Color.argb(128, 255, 51, 0));
                         polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"","")), Double.parseDouble(kakaoresult.get(1).replace("\"",""))));
                         polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"","")),Double.parseDouble(kakaoresult.get(4).replace("\"",""))));
@@ -933,6 +937,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         int padding = 300; // px
                         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding, 3,8));
                         //mapView.removeAllPOIItems();
+                        Log.d("polyline_test", String.valueOf(mapView.findPolylineByTag(1001)));
                         Log.d("Rtttest3", String.valueOf(kakaoresult.size()));
                         //showpolyline(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5)), Double.parseDouble(kakaoresult.get(4))),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5)), Double.parseDouble(kakaoresult.get(4))));
                         Log.d("Rtttest3", String.valueOf(kakaoresult.size()));
