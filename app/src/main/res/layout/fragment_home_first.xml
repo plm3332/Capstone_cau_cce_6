@@ -32,7 +32,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/fragment_home_first_edittext"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginLeft="40dp"
@@ -60,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.861"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText4"
+            app:layout_constraintTop_toTopOf="@+id/fragment_home_first_edittext"
             app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
