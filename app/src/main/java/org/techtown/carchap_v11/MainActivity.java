@@ -178,7 +178,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
         //하단 액션바 아이콘 고정 및 사이즈 조정
         mMainFrame = (FrameLayout) findViewById(main_frame);
-        BottomNavigationView mMainNav = (BottomNavigationView)findViewById(main_nav);
+        final BottomNavigationView mMainNav = (BottomNavigationView)findViewById(main_nav);
         mMainNav.setItemIconSize(120);
         Log.d("TEST22","@222");
         BottomNavigationHelper.disableShiftMode(mMainNav);
@@ -191,6 +191,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 switch (menuItem.getItemId()){
 
                     case nav_home:
+                        //mMainNav.setItemBackgroundResource(color.);
                         setFragment(homeFragment_first);
                         return true;
 
@@ -487,7 +488,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         inputMethodManager.hideSoftInputFromWindow(mapView.getWindowToken(),0);
 
         /*현재 위치 받아와서 textview에 띄우기*/
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         TextView main_current_location=(TextView) findViewById(R.id.current_location);
 
         if ( Build.VERSION.SDK_INT >= 23 &&
@@ -496,31 +497,34 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     0 );
         }
         else{
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            String provider = location.getProvider();
-            double longitude = location.getLongitude();
-            double latitude = location.getLatitude();
-            double altitude = location.getAltitude();
-            MapPoint current_location_point = MapPoint.mapPointWithGeoCoord(latitude, longitude);
-            MapPoint.GeoCoordinate mapPointGeo = mapView.getMapCenterPoint().getMapPointGeoCoord();
-            String temp=getAddress(MainActivity.this.getBaseContext(),mapPointGeo.latitude,mapPointGeo.longitude);
-            temp=temp.replace("대한민국","");
-            main_current_location.setText(temp);
+            try{
+                Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                String provider = location.getProvider();
+                double longitude = location.getLongitude();
+                double latitude = location.getLatitude();
+                double altitude = location.getAltitude();
+                MapPoint current_location_point = MapPoint.mapPointWithGeoCoord(latitude, longitude);
+                MapPoint.GeoCoordinate mapPointGeo = mapView.getMapCenterPoint().getMapPointGeoCoord();
+                String temp=getAddress(MainActivity.this.getBaseContext(),mapPointGeo.latitude,mapPointGeo.longitude);
+                temp=temp.replace("대한민국","");
+                main_current_location.setText(temp);
 
 
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    1000,
-                    1,
-                    gpsLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    1000,
-                    1,
-                    gpsLocationListener);
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        1000,
+                        1,
+                        gpsLocationListener);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                        1000,
+                        1,
+                        gpsLocationListener);
+            }catch (NullPointerException e) {
+                Log.d("current location ","current location error");
+            }
         }
 
 
     }
-
 
 
     private void setFragment(Fragment fragment){
