@@ -850,7 +850,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
 
 
 
-        private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/search/keyword.json?query=%s";
+    private static final String KAKAO_REST_API= "https://dapi.kakao.com/v2/local/search/keyword.json?query=%s";
     static String polyline_signal="";
         static class kakaogetRESTApi extends AsyncTask<String, String, String> {
             void showpolyline(MapPoint mapPoint, MapPoint mapPoint2){

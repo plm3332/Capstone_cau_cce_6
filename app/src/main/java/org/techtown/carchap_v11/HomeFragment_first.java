@@ -4,9 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import static org.techtown.carchap_v11.R.id.main_frame;
 
 
 /**
@@ -27,8 +36,10 @@ public class HomeFragment_first extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public EditText homefragment_first_button;
     private OnFragmentInteractionListener mListener;
-
+    private HomeFragment_second homeFragment_second;
+    private HomeFragment homeFragment;
     public HomeFragment_first() {
         // Required empty public constructor
     }
@@ -64,7 +75,42 @@ public class HomeFragment_first extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_first, container, false);
+        View view = (View) inflater.inflate(R.layout.fragment_home_first, container, false);
+        homefragment_first_button = view.findViewById(R.id.fragment_home_first_edittext);
+        homeFragment_second = new HomeFragment_second();
+        homeFragment = new HomeFragment();
+
+        homefragment_first_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d("HomeFragment_first_test 4","edit click");
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction replace = fragmentTransaction.replace(main_frame, homeFragment_second);
+                replace.commit();
+            }
+        });
+        /*
+        homefragment_first_editText.addTextChangedListener(new TextWatcher() {
+            // 입력되는 텍스트에 변화가 있을 때
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("HomeFragment_first_test 1","변화");
+            }
+
+            // 입력이 끝났을 때
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d("HomeFragment_first_test 2","입력끝");
+            }
+
+            // 입력하기 전에
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("HomeFragment_first_test 3","입력전");
+            }
+        });*/
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
