@@ -5,22 +5,22 @@
 
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/home_findpath"
+        android:icon="@drawable/home_findpath_grey"
         app:labelVisibilityMode="labeled" />
     <item
         android:id="@+id/nav_reser"
-        android:icon="@drawable/home_allinonecarchap"
+        android:icon="@drawable/home_allinonecarchap_grey"
         app:labelVisibilityMode="labeled"/>
     <item
         android:id="@+id/nav_pinmove"
-        android:icon="@drawable/home_carchap"
+        android:icon="@drawable/home_carchap_grey"
         app:labelVisibilityMode="labeled"/>
     <item
         android:id="@+id/nav_bike"
-        android:icon="@drawable/home_carchapforall"
+        android:icon="@drawable/home_carchapforall_grey"
         app:labelVisibilityMode="labeled" />
     <item
         android:id="@+id/nav_info"
-        android:icon="@drawable/home_mypage"
+        android:icon="@drawable/home_mypage_grey"
         app:labelVisibilityMode="labeled"/>
 </menu>

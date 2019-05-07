@@ -112,5 +112,13 @@
             android:paddingRight="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/bikesharing_kakaobike_bar" />
+
+        <Button
+            android:id="@+id/blank02"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:alpha="1"
+            android:background="#f7f8f8" />
+
     </LinearLayout>
 </FrameLayout>

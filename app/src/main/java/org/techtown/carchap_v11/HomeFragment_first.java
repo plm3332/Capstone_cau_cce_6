@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import static org.techtown.carchap_v11.R.id.main_frame;
@@ -76,9 +77,10 @@ public class HomeFragment_first extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_home_first, container, false);
-        homefragment_first_button = view.findViewById(R.id.fragment_home_first_edittext);
+        ImageButton homefragment_first_button = (ImageButton) view.findViewById(R.id.imageButton_home_first_findpath);
         homeFragment_second = new HomeFragment_second();
         homeFragment = new HomeFragment();
+
 
         homefragment_first_button.setOnClickListener(new View.OnClickListener(){
             @Override

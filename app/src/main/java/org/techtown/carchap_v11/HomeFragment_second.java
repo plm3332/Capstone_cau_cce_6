@@ -100,6 +100,8 @@ public class HomeFragment_second extends Fragment {
         fragment_home_second_editext = view.findViewById(R.id.fragment_home_second_editext);
         adapter= new ArrayAdapter(getContext() ,android.R.layout.simple_list_item_1,data);
         temp=(ListView)view.findViewById(R.id.fragment_home_second_listview);
+
+
         fragment_home_second_editext.addTextChangedListener(new TextWatcher() {
             int textlength=fragment_home_second_editext.getText().toString().length();
 
@@ -119,12 +121,13 @@ public class HomeFragment_second extends Fragment {
                 Log.d("HomeFragment_second traking", "2");
                 textlength=fragment_home_second_editext.getText().toString().length();
                 Log.d("HomeFragment_second", "textchanged when :"+ textlength);
-
                 kakaogetRESTApi kakao= new kakaogetRESTApi();
                 kakao.execute(fragment_home_second_editext.getText().toString(), "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+
                 Log.d("HomeFragment_second", "textchanged when2 :"+ textlength);
                 Log.d("HomeFragment_second traking", "3");
                 Log.d("data test", String.valueOf(data.isEmpty()));
+
                 Log.d("HomeFragment_second traking", "7");
 
 
@@ -243,8 +246,10 @@ public class HomeFragment_second extends Fragment {
 
                 }
 
+
+
                 for (int i=0;i<10;i++){
-                    Log.d("data test2", data.get(i));
+                   // Log.d("data test2", data.get(i));
                 }
                 Log.d("HomeFragment_second traking", "6");
 

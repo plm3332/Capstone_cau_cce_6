@@ -33,6 +33,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,36 +181,47 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         //하단 액션바 아이콘 고정 및 사이즈 조정
         mMainFrame = (FrameLayout) findViewById(main_frame);
         final BottomNavigationView mMainNav = (BottomNavigationView)findViewById(main_nav);
-        mMainNav.setItemIconSize(120);
+        mMainNav.setItemIconSize(240);
+
         Log.d("TEST22","@222");
         BottomNavigationHelper.disableShiftMode(mMainNav);
 
 
+
+
+
         //하단 액션바 기능
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+
                 switch (menuItem.getItemId()){
 
                     case nav_home:
-                        //mMainNav.setItemBackgroundResource(color.);
+                        //menuItem.setIcon(R.drawable.home_findpath);
                         setFragment(homeFragment_first);
                         return true;
 
                     case nav_bike:
+                        //menuItem.setIcon(R.drawable.home_allinonecarchap);
                         setFragment(bikeFragment);
                         return true;
 
                     case nav_pinmove:
+                        //menuItem.setIcon(R.drawable.home_carchap);
                         setFragment(carchapFragment);
                         return true;
 
 
                     case nav_reser:
+                        //menuItem.setIcon(R.drawable.home_carchapforall);
                         setFragment(reserFragment);
                         return true;
 
                     case nav_info:
+                        //menuItem.setIcon(R.drawable.home_mypage);
                         setFragment(infoFragment);
                         return true;
 
@@ -998,6 +1011,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                 return temp;}*/
 
         }
+
 
 
 }

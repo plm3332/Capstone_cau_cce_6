@@ -59,15 +59,16 @@
 
         <TextView
             android:id="@+id/current_location"
-            android:layout_width="323dp"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
             android:layout_alignTop="@+id/editText3"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:alpha="0.9"
+            android:scaleType="fitXY"
             android:background="@drawable/mylocation"
             android:gravity="center_vertical|center_horizontal"
             android:textAlignment="center" />
@@ -89,15 +90,14 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/rounded"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/rounded_bar"
             android:color="#f7f8f8"
             app:itemIconTint="#438bff"
             app:itemTextColor="@color/nav_item_colors"
             app:labelVisibilityMode="unlabeled"
-            app:menu="@menu/nav_item"></android.support.design.widget.BottomNavigationView>
+            app:menu="@menu/nav_item_grey"></android.support.design.widget.BottomNavigationView>
 
 
     </FrameLayout>

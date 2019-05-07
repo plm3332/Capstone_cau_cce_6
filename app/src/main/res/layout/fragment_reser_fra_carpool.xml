@@ -63,6 +63,13 @@
             android:scaleType="fitXY"
             android:src="@drawable/carpool_adigo_bar" />
 
+        <Button
+            android:id="@+id/blank01"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:alpha="1"
+            android:background="#f7f8f8" />
+
     </LinearLayout>
 
 </FrameLayout>

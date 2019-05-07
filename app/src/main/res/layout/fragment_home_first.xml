@@ -11,7 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/home_findbar"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="130dp"
         android:background="@drawable/homefragment_first">
 
 
@@ -19,49 +19,31 @@
             android:id="@+id/fragment_home_first_carchap"
             android:layout_width="120dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="60dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="50dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
             android:src="@drawable/homefragment_first_carchap"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
-
-        <EditText
-            android:id="@+id/fragment_home_first_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="68dp"
-            android:background="@drawable/rounded"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingLeft="50dp"
-            android:paddingRight="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/fragment_home_first_find"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/transparent"
+            android:id="@+id/imageButton_home_first_findpath"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginTop="4dp"
+            android:background="@null"
+            android:paddingLeft="38.5dp"
+            android:paddingRight="38.5dp"
             android:scaleType="fitXY"
-            android:src="@drawable/homefragment_first_find"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/homefragment_first_findbar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.861"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/fragment_home_first_edittext"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_home_first_carchap" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
