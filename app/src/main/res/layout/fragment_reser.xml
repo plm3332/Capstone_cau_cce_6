@@ -44,7 +44,7 @@
                         android:layout_weight="1"
                         android:background="#f7f8f8"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_carchap_carsharing"
+                        android:src="@drawable/imagebutton_carchap_carsharing_grey"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imageButton_carchap_carpool"
                         app:layout_constraintTop_toTopOf="parent"
@@ -60,7 +60,7 @@
                         android:layout_marginTop="8dp"
                         android:background="#f7f8f8"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_carchap_carpool"
+                        android:src="@drawable/imagebutton_carchap_carpool_grey"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
                         android:layout_marginTop="8dp"
                         android:background="#f7f8f8"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_carchap_aqua"
+                        android:src="@drawable/imagebutton_carchap_aqua_grey"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageButton_carchap_carpool"
                         app:layout_constraintTop_toTopOf="parent"
@@ -94,7 +94,7 @@
                         android:layout_weight="1"
                         android:background="#f7f8f8"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_carchar_kickboard"
+                        android:src="@drawable/imagebutton_carchar_kickboard_grey"
                         app:layout_constraintStart_toEndOf="@+id/imagebutton_carchap_bikesharing"
                         app:layout_constraintTop_toBottomOf="@+id/imageButton_carchap_aqua" />
 
@@ -110,7 +110,7 @@
                         android:background="#f7f8f8"
                         android:foregroundGravity="center_horizontal"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_carchap_bikesharing"
+                        android:src="@drawable/imagebutton_carchap_bikesharing_grey"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageButton_carchap_carpool" />
@@ -126,7 +126,7 @@
                         android:layout_weight="1"
                         android:background="#f7f8f8"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_carchap_rentcar"
+                        android:src="@drawable/imagebutton_carchap_rentcar_grey"
                         app:layout_constraintEnd_toStartOf="@+id/imagebutton_carchap_bikesharing"
                         app:layout_constraintTop_toBottomOf="@+id/imageButton_carchap_carsharing" />
 
@@ -141,7 +141,7 @@
                         android:layout_weight="1"
                         android:background="#f7f8f8"
                         android:scaleType="fitXY"
-                        android:src="@drawable/imagebutton_reser_deliveryservice"
+                        android:src="@drawable/imagebutton_reser_deliveryservice_grey"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/imageButton_carchap_carpool"
                         app:layout_constraintTop_toTopOf="parent"
@@ -181,5 +181,9 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <android.support.v4.widget.SlidingPaneLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v4.widget.SlidingPaneLayout>
 
 </FrameLayout>
