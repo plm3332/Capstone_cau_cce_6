@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ReserFragment">
+    android:layout_height="310dp"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    tools:context=".ReserFragment"
+
+    app:umanoScrollableView="@id/fragment_reser_relative"
+    >
 
     <!-- TODO: Update blank fragment layout -->
-
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    android:background="@drawable/rounded_bar"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="100dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/rounded_bar">
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_reser_relative"
+        >
 
 
         <LinearLayout
@@ -181,9 +193,6 @@
         </LinearLayout>
 
     </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>
 
-    <android.support.v4.widget.SlidingPaneLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.widget.SlidingPaneLayout>
-
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -3,33 +3,25 @@ package org.techtown.carchap_v11;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.techtown.carchap_v11.dummy.DummyContent;
 
-import java.util.ArrayList;
-
-import static org.techtown.carchap_v11.R.id.main_frame;
-import static org.techtown.carchap_v11.R.id.reser_scrollview;
+import static org.techtown.carchap_v11.R.drawable.imagebutton_carchap_rentcar_grey;
 
 
 /**
@@ -56,11 +48,20 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
     private FrameLayout reser_kickboard;
     private FrameLayout reser_rentcar;
 
+    private BottomSheetBehavior mBottomSheetBehavior;
+    View mbottomSheet;
+
+
+
+
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+
 
     public ReserFragment() {
         // Required empty public constructor
@@ -115,12 +116,14 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_reser, container, false);
         ViewPager viewPager =(ViewPager) view.findViewById(R.id.pager);
         final ScrollView scrollView=(ScrollView) view.findViewById(R.id.reser_scrollview);
+
+        mbottomSheet=(View)view.findViewById(R.id.bottom_sheet);
+        mBottomSheetBehavior=BottomSheetBehavior.from(mbottomSheet);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         /*중간 스크롤뷰 이미지버튼 선언*/
         final ImageButton imageButton_reser_bikesharing=(ImageButton) view.findViewById(R.id.imagebutton_reser_bikesharing);
@@ -130,6 +133,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         final ImageButton imageButton_reser_deliveryservice=(ImageButton) view.findViewById(R.id.imageButton_reser_deliveryservice);
         final ImageButton imageButton_reser_kickboard=(ImageButton) view.findViewById(R.id.imageButton_reser_kickboard);
         final ImageButton imageButton_reser_rentcar=(ImageButton) view.findViewById(R.id.imageButton_reser_rentcar);
+
         TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
 
         /*하위 프레그멘트 선언*/
@@ -155,6 +159,15 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
                 Fragment fragment = new ReserFra_bikesharing();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing);
+
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar_grey);
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard_grey);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice_grey);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing_grey);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool_grey);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua_grey);
+
                 fragmentTransaction.commit();
             }
 
@@ -165,9 +178,18 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         imageButton_reser_carchapaqua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new ReserFra_carchap();
+                Fragment fragment = new ReserFra_aqua();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua);
+
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar_grey);
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard_grey);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice_grey);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing_grey);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool_grey);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing_grey);
+
                 fragmentTransaction.commit();
             }
 
@@ -181,6 +203,15 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
                 Fragment fragment = new ReserFra_carpool();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool);
+
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar_grey);
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard_grey);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice_grey);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing_grey);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua_grey);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing_grey);
+
                 fragmentTransaction.commit();
             }
 
@@ -194,6 +225,15 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
                 Fragment fragment = new ReserFra_carsharing();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing);
+
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar_grey);
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard_grey);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice_grey);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool_grey);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua_grey);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing_grey);
+
                 fragmentTransaction.commit();
             }
 
@@ -207,6 +247,15 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
                 Fragment fragment = new ReserFra_deliveryservice();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice);
+
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar_grey);
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard_grey);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing_grey);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool_grey);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua_grey);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing_grey);
+
                 fragmentTransaction.commit();
             }
 
@@ -220,6 +269,15 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
                 Fragment fragment = new ReserFra_kickboard();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard);
+
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar_grey);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice_grey);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing_grey);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool_grey);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua_grey);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing_grey);
+
                 fragmentTransaction.commit();
             }
 
@@ -233,6 +291,17 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
                 Fragment fragment = new ReserFra_rentcar();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+                imageButton_reser_rentcar.setImageResource(R.drawable.imagebutton_carchap_rentcar);
+
+
+                imageButton_reser_kickboard.setImageResource(R.drawable.imagebutton_carchar_kickboard_grey);
+                imageButton_reser_deliveryservice.setImageResource(R.drawable.imagebutton_reser_deliveryservice_grey);
+                imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing_grey);
+                imageButton_reser_carpool.setImageResource(R.drawable.imagebutton_carchap_carpool_grey);
+                imageButton_reser_carchapaqua.setImageResource(R.drawable.imagebutton_carchap_aqua_grey);
+                imageButton_reser_bikesharing.setImageResource(R.drawable.imagebutton_carchap_bikesharing_grey);
+
+
                 fragmentTransaction.commit();
             }
 
@@ -242,7 +311,9 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         });
 
         return view;
+
     }
+
 
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
@@ -267,6 +338,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
 
 
     }
+
 
 
     @Override

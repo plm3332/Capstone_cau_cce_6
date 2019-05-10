@@ -18,12 +18,12 @@ import org.techtown.carchap_v11.dummy.DummyContent;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReserFra_carchap extends Fragment implements AdapterView.OnItemSelectedListener,ItemFragment.OnListFragmentInteractionListener {
+public class ReserFra_aqua extends Fragment implements AdapterView.OnItemSelectedListener,ItemFragment.OnListFragmentInteractionListener {
 
     private Reser_carchapFragmentListener listener;
 
 
-    public ReserFra_carchap() {
+    public ReserFra_aqua() {
         // Required empty public constructor
     }
 
@@ -32,7 +32,7 @@ public class ReserFra_carchap extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = (View) inflater.inflate(R.layout.fragment_reser_fra_carchap, container, false);
+        View view = (View) inflater.inflate(R.layout.fragment_reser_fra_aqua, container, false);
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner) view.findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.carchap_aqua_start_point_array, android.R.layout.simple_spinner_item);

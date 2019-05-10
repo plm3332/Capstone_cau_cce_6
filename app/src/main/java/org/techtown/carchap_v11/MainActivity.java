@@ -1,8 +1,6 @@
 package org.techtown.carchap_v11;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,8 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -30,14 +26,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,25 +48,18 @@ import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import static org.techtown.carchap_v11.R.color;
 import static org.techtown.carchap_v11.R.id;
-import static org.techtown.carchap_v11.R.id.current_location;
 import static org.techtown.carchap_v11.R.id.daumMapView;
-import static org.techtown.carchap_v11.R.id.list;
 import static org.techtown.carchap_v11.R.id.main_frame;
 import static org.techtown.carchap_v11.R.id.main_nav;
 import static org.techtown.carchap_v11.R.id.nav_bike;
@@ -86,7 +70,7 @@ import static org.techtown.carchap_v11.R.id.nav_reser;
 import static org.techtown.carchap_v11.R.layout;
 
 
-public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_carchap.Reser_carchapFragmentListener,HomeFragment.HomeFragmentListener,MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.CurrentLocationEventListener {
+public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_aqua.Reser_carchapFragmentListener,HomeFragment.HomeFragmentListener,MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.CurrentLocationEventListener {
 
 
 

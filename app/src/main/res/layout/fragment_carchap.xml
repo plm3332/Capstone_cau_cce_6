@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="310dp"
+    android:layout_gravity="bottom"
     tools:context=".CarchapFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/bottom_sheet2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:background="@drawable/rounded_bar"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="100dp"
+        android:layout_gravity="bottom">
 
     <!-- TODO: Update blank fragment layout -->
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Main_underbar"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="bottom"
-        android:background="@drawable/rounded_bar">
+        android:layout_height="match_parent"
+
+        >
 
         <ImageButton
             android:id="@+id/imageButton_carchap_carpool"
@@ -101,4 +112,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
-</FrameLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
