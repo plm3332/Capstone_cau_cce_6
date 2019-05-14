@@ -134,6 +134,13 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         final ImageButton imageButton_reser_kickboard=(ImageButton) view.findViewById(R.id.imageButton_reser_kickboard);
         final ImageButton imageButton_reser_rentcar=(ImageButton) view.findViewById(R.id.imageButton_reser_rentcar);
 
+        /*올인원 카찹 프레그먼트 로드시 초기 설정*/
+        imageButton_reser_carsharing.setImageResource(R.drawable.imagebutton_carchap_carsharing);
+        Fragment fragment = new ReserFra_carsharing();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
+        fragmentTransaction.commit();
+
         TabLayout tabLayout =(TabLayout) view.findViewById(R.id.reser_tab);
 
         /*하위 프레그멘트 선언*/
@@ -147,10 +154,7 @@ public class ReserFragment extends Fragment implements AdapterView.OnItemSelecte
         reser_rentcar=(FrameLayout) view.findViewById(R.id.fragment_reser_rentcar);
 
 
-        Fragment fragment = new ReserFra_carpool();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.reser_scrollview_frag,fragment);
-        fragmentTransaction.commit();
+
 
         /*예약 프레그먼트 중간 스크롤뷰 아이콘 클릭 이벤트*/
         imageButton_reser_bikesharing.setOnClickListener(new View.OnClickListener() {
