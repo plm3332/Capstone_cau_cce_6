@@ -11,24 +11,6 @@ import android.widget.ImageView;
 import org.techtown.carchap_v11.R;
 
 public class Intro extends AppCompatActivity {
-/*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro);
-
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //임시로 mainactivity로 이동
-                Intent intent = new Intent(Intro.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        },2000);
-    }*/
 @Override
 protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

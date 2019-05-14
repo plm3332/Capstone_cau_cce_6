@@ -8,12 +8,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,6 +36,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import static org.techtown.carchap_v11.R.id.main_frame;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +59,12 @@ public class HomeFragment_second extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private EditText fragment_home_second_editext;
+    private HomeFragment_third homeFragment_third;
 
 
     static ArrayList<String> data=new ArrayList<>();
-    static ArrayAdapter<String> adapter;
-    static ListView temp;
+    static ArrayAdapter<Listview_location_Item> adapter;
+    static ListView mlistview;
 
     public HomeFragment_second() {
         // Required empty public constructor
@@ -101,7 +107,7 @@ public class HomeFragment_second extends Fragment {
         View view = (View) inflater.inflate(R.layout.fragment_home_second, container, false);
         fragment_home_second_editext = view.findViewById(R.id.fragment_home_second_editext);
         adapter= new ArrayAdapter(getContext() ,android.R.layout.simple_list_item_1,data);
-        temp=(ListView)view.findViewById(R.id.fragment_home_second_listview);
+        mlistview=(ListView)view.findViewById(R.id.fragment_home_second_listview);
 
 
         /*길찾기 edittext에 글이 입력되었을 때 이벤트리스너*/
@@ -136,14 +142,12 @@ public class HomeFragment_second extends Fragment {
                     Log.d("data test", String.valueOf(data.isEmpty()));
 
                     Log.d("HomeFragment_second traking", "7");
-                    temp.setAdapter(adapter);
+                    mlistview.setAdapter(adapter);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             adapter.notifyDataSetChanged();
-
-
                         }
                     }, 500);
 
@@ -157,7 +161,29 @@ public class HomeFragment_second extends Fragment {
             }
         });
         Log.d("HomeFragment_second traking", "4");
+        homeFragment_third = new HomeFragment_third();
+        try {
 
+
+            mlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction replace = fragmentTransaction.replace(main_frame, homeFragment_third);
+
+                    //data.get(i)
+                    //fragment 키보드 조정
+                    InputMethodManager mInputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    mInputMethodManager.hideSoftInputFromWindow(fragment_home_second_editext.getWindowToken(), 0);
+
+                    replace.commit();
+                }
+            });
+        }
+        catch (IllegalStateException e){
+            e.printStackTrace();
+            Log.e("list view item click", "Error: " + e.getMessage());
+        }
 
         return view;
     }
@@ -247,25 +273,20 @@ public class HomeFragment_second extends Fragment {
                 Log.d("REST GET", "The response is :" + response);
                 inputStream = conn.getInputStream();
                 JsonObject json = new JsonParser().parse(new InputStreamReader(inputStream, "UTF-8")).getAsJsonObject();
-                json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
-                returnValue = json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
-                returnValue_x=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("x").toString();
-                returnValue_y=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("y").toString();
-                Log.d("HomeFragment_second ", "The response[0] is  :" + returnValue + returnValue_x + returnValue_y);
-                returnValue = json.getAsJsonArray("documents").get(1).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
-                returnValue_x=json.getAsJsonArray("documents").get(1).getAsJsonObject().getAsJsonPrimitive("x").toString();
-                returnValue_y=json.getAsJsonArray("documents").get(1).getAsJsonObject().getAsJsonPrimitive("y").toString();
-                Log.d("HomeFragment_second ", "The response[1] is  :" + returnValue + returnValue_x + returnValue_y);
-
 
                 Log.d("HomeFragment_second traking", "8");
 
                 for(int i = 0;i<10;i++)
                 {
                     returnValue = json.getAsJsonArray("documents").get(i).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
+                    returnValue_x=json.getAsJsonArray("documents").get(i).getAsJsonObject().getAsJsonPrimitive("x").toString();
+                    returnValue_y=json.getAsJsonArray("documents").get(i).getAsJsonObject().getAsJsonPrimitive("y").toString();
                     Log.d("HomeFragment_second ", "The response["+i+"] is  :" + returnValue);
                     returnValue=returnValue.replace("\"","");
-                    data.add(returnValue);
+                    returnValue_x=returnValue_x.replace("\"","");
+                    returnValue_y=returnValue_y.replace("\"","");
+                    Listview_location_Item item=new Listview_location_Item(returnValue,returnValue_x,returnValue_y);
+                    data.add(item.getPlace_name());
                 }
 
 

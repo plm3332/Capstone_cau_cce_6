@@ -91,27 +91,6 @@ public class HomeFragment_first extends Fragment {
                 replace.commit();
             }
         });
-        /*
-        homefragment_first_editText.addTextChangedListener(new TextWatcher() {
-            // 입력되는 텍스트에 변화가 있을 때
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("HomeFragment_first_test 1","변화");
-            }
-
-            // 입력이 끝났을 때
-            @Override
-            public void afterTextChanged(Editable editable) {
-                Log.d("HomeFragment_first_test 2","입력끝");
-            }
-
-            // 입력하기 전에
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.d("HomeFragment_first_test 3","입력전");
-            }
-        });*/
-
         return view;
     }
 
