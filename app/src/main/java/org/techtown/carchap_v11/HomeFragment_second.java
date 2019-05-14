@@ -94,7 +94,9 @@ public class HomeFragment_second extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         Log.d("HomeFragment_second traking", "1");
+
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_home_second, container, false);
         fragment_home_second_editext = view.findViewById(R.id.fragment_home_second_editext);
@@ -102,8 +104,10 @@ public class HomeFragment_second extends Fragment {
         temp=(ListView)view.findViewById(R.id.fragment_home_second_listview);
 
 
+        /*길찾기 edittext에 글이 입력되었을 때 이벤트리스너*/
         fragment_home_second_editext.addTextChangedListener(new TextWatcher() {
             int textlength=fragment_home_second_editext.getText().toString().length();
+
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -118,17 +122,36 @@ public class HomeFragment_second extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("HomeFragment_second traking", "2");
-                textlength=fragment_home_second_editext.getText().toString().length();
-                Log.d("HomeFragment_second", "textchanged when :"+ textlength);
-                kakaogetRESTApi kakao= new kakaogetRESTApi();
-                kakao.execute(fragment_home_second_editext.getText().toString(), "37.0789561558879","7a1980c4a68692e396509a54b3c3223c");
+                try {
 
-                Log.d("HomeFragment_second", "textchanged when2 :"+ textlength);
-                Log.d("HomeFragment_second traking", "3");
-                Log.d("data test", String.valueOf(data.isEmpty()));
 
-                Log.d("HomeFragment_second traking", "7");
+                    Log.d("HomeFragment_second traking", "2");
+                    textlength = fragment_home_second_editext.getText().toString().length();
+                    Log.d("HomeFragment_second", "textchanged when :" + textlength);
+                    kakaogetRESTApi kakao = new kakaogetRESTApi();
+                    data.clear();
+                    kakao.execute(fragment_home_second_editext.getText().toString(), "37.0789561558879", "7a1980c4a68692e396509a54b3c3223c");
+                    Log.d("HomeFragment_second", "textchanged when2 :" + textlength);
+                    Log.d("HomeFragment_second traking", "3");
+                    Log.d("data test", String.valueOf(data.isEmpty()));
+
+                    Log.d("HomeFragment_second traking", "7");
+                    temp.setAdapter(adapter);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+
+
+                        }
+                    }, 500);
+
+                }
+                catch (IllegalStateException e){
+                    e.printStackTrace();
+                    Log.e("list view update", "Error: " + e.getMessage());
+                }
 
 
             }
@@ -234,16 +257,15 @@ public class HomeFragment_second extends Fragment {
                 returnValue_y=json.getAsJsonArray("documents").get(1).getAsJsonObject().getAsJsonPrimitive("y").toString();
                 Log.d("HomeFragment_second ", "The response[1] is  :" + returnValue + returnValue_x + returnValue_y);
 
-                data.clear();
+
                 Log.d("HomeFragment_second traking", "8");
 
                 for(int i = 0;i<10;i++)
                 {
                     returnValue = json.getAsJsonArray("documents").get(i).getAsJsonObject().getAsJsonPrimitive("place_name").toString();
                     Log.d("HomeFragment_second ", "The response["+i+"] is  :" + returnValue);
+                    returnValue=returnValue.replace("\"","");
                     data.add(returnValue);
-                    adapter.notifyDataSetChanged();
-
                 }
 
 
@@ -253,14 +275,13 @@ public class HomeFragment_second extends Fragment {
                 }
                 Log.d("HomeFragment_second traking", "6");
 
-                temp.setAdapter(adapter);
+
 
 
 
                 returnValue_x=returnValue_x.replace("\"","");
                 returnValue_y=returnValue_y.replace("\"","");
                 //Log.d("REST GET", "The response is :" + returnValue + returnValue_x + returnValue_y);
-
 
 
             } catch (Exception e) {
@@ -286,4 +307,5 @@ public class HomeFragment_second extends Fragment {
                 return temp;}*/
 
     }
+
 }
