@@ -34,6 +34,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:entries="@array/carchap_aqua_start_point_array"
+                    android:textColor="#438bff"
                     android:gravity="left" />
 
                 <Spinner
@@ -48,6 +49,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:entries="@array/carchap_aqua_finish_point_array"
+                    android:textColor="#438bff"
                     android:gravity="right" />
             </LinearLayout>
 
