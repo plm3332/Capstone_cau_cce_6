@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -557,38 +558,46 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     public void onInputReserF_start_Sent(CharSequence input) {
         Log.d("startpoint",input.toString());
 
+
         if(input.equals("출발지")) {
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(default_point, true);
+
         }
         else if(input.equals("이촌")){
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(ichon_point, true);
+            createMarker(mapView,"이촌",ichon_point,3,"aqua");
             zoomstartpoint=ichon_point;
         }
         else if(input.equals("동작")){
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(dongjag_point, true);
+            createMarker(mapView,"동작",dongjag_point,3,"aqua");
             zoomstartpoint=dongjag_point;
         }
         else if(input.equals("반포")){
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(banpo_point, true);
+            createMarker(mapView,"반포",banpo_point,3,"aqua");
             zoomstartpoint=banpo_point;
         }
         else if(input.equals("뚝섬")){
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(ttugseom_point, true);
+            createMarker(mapView,"뚝섬",ttugseom_point,3,"aqua");
             zoomstartpoint=ttugseom_point;
         }
         else if(input.equals("잠실")){
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(jamsil_point, true);
+            createMarker(mapView,"잠실",jamsil_point,3,"aqua");
             zoomstartpoint=jamsil_point;
         }
         else if(input.equals("망원")){
             mapView.removeAllPOIItems();
             mapView.setMapCenterPoint(mangwon_point, true);
+            createMarker(mapView,"망원",mangwon_point,3,"aqua");
             zoomstartpoint=mangwon_point;
         }
         else{
@@ -609,24 +618,30 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             Log.d("temp point", String.valueOf(resentfinishiuput));
         }
         else if(input.equals("이촌")){
+            createMarker(mapView,"이촌",ichon_point,3,"aqua");
             zoomfinishpoint=ichon_point;
 
         }
         else if(input.equals("동작")){
             zoomfinishpoint=dongjag_point;
+            createMarker(mapView,"동작",dongjag_point,3,"aqua");
         }
         else if(input.equals("반포")){
             zoomfinishpoint=banpo_point;
+            createMarker(mapView,"반포",banpo_point,3,"aqua");
         }
         else if(input.equals("뚝섬")){
             zoomfinishpoint=ttugseom_point;
+            createMarker(mapView,"뚝섬",ttugseom_point,3,"aqua");
         }
         else if(input.equals("잠실")){
             zoomfinishpoint=jamsil_point;
+            createMarker(mapView,"잠실",jamsil_point,3,"aqua");
 
         }
         else if(input.equals("망원")){
             zoomfinishpoint=mangwon_point;
+            createMarker(mapView,"망원",mangwon_point,3,"aqua");
         }
         else{
             Toast.makeText(this,"잘못된 포인트 설정입니다.",Toast.LENGTH_SHORT).show();

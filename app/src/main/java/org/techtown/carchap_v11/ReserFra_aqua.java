@@ -2,17 +2,22 @@ package org.techtown.carchap_v11;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import org.techtown.carchap_v11.dummy.DummyContent;
+
+import static org.techtown.carchap_v11.R.id.main_frame;
 
 
 /**
@@ -21,6 +26,7 @@ import org.techtown.carchap_v11.dummy.DummyContent;
 public class ReserFra_aqua extends Fragment implements AdapterView.OnItemSelectedListener,ItemFragment.OnListFragmentInteractionListener {
 
     private Reser_carchapFragmentListener listener;
+    private ReserFra_aqua_second reserFra_aqua_second;
 
 
     public ReserFra_aqua() {
@@ -35,6 +41,7 @@ public class ReserFra_aqua extends Fragment implements AdapterView.OnItemSelecte
         View view = (View) inflater.inflate(R.layout.fragment_reser_fra_aqua, container, false);
         Spinner spinner = (Spinner) view.findViewById(R.id.spinner);
         Spinner spinner2 = (Spinner) view.findViewById(R.id.spinner2);
+        ImageButton imageButton_aqua_aquabar = (ImageButton) view.findViewById(R.id.imageButton_aqua_aquabar);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.carchap_aqua_start_point_array, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.carchap_aqua_finish_point_array, android.R.layout.simple_spinner_item);
 // Specify the layout to use when the list of choices appears
@@ -50,6 +57,25 @@ public class ReserFra_aqua extends Fragment implements AdapterView.OnItemSelecte
         spinner2.setAdapter(adapter2);
         spinner2.setOnItemSelectedListener(this);
         Log.d("spinner2 point",String.valueOf(spinner2.getId()));
+        final Fragment reserFra_aqua_second = new ReserFra_aqua_second();
+
+        imageButton_aqua_aquabar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /*
+                Fragment fragment = new ReserFra_aqua_second();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_reser_carchap,fragment);*/
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(main_frame,reserFra_aqua_second);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+
+        });
+
 
 
 
