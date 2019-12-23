@@ -19,36 +19,35 @@
         <EditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="33dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="48dp"
             android:background="@android:color/transparent"
             android:ems="10"
-            android:hint="내 위치 :"
             android:inputType="textPersonName"
-            android:paddingLeft="50dp"
-            android:paddingRight="100dp"
+
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.93"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editText2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="33dp"
+            android:layout_marginLeft="110dp"
             android:layout_marginTop="8dp"
             android:background="@android:color/transparent"
             android:ems="10"
             android:focusable="true"
-            android:hint="도착지 :"
             android:inputType="textPersonName"
-            android:paddingLeft="50dp"
-            android:paddingRight="100dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText"
-            app:layout_constraintVertical_bias="0.358" />
+            app:layout_constraintVertical_bias="0.428" />
 
         <Button
             android:id="@+id/button2"

@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import static org.techtown.carchap_v11.HomeFragment_second.place_name_3;
+import static org.techtown.carchap_v11.R.id.main_frame;
 
 
 /**
@@ -23,12 +29,40 @@ public class HomeFragment_third extends Fragment {
         // Required empty public constructor
     }
 
+    static String startname;
+    static String finishname;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = (View)inflater.inflate(R.layout.fragment_home_third, container, false);
+        final TextView place_name_text = (TextView) view.findViewById(R.id.place_name_text);
+        place_name_text.setText(place_name_3);
+        Button makestart=(Button)view.findViewById(R.id.makestart);
+        makestart.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction replace = fragmentTransaction.replace(main_frame, new HomeFragment());
+                startname=place_name_3;
+                replace.commit();
+
+            }
+        });
+
+        Button makefinish=(Button)view.findViewById(R.id.makefinish);
+        makefinish.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                FragmentTransaction replace = fragmentTransaction.replace(main_frame, new HomeFragment());
+                finishname=place_name_3;
+                replace.commit();
+            }
+        });
+
         return view;
     }
 

@@ -74,19 +74,24 @@ import static org.techtown.carchap_v11.R.layout;
 public class MainActivity extends FragmentActivity implements MapView.MapViewEventListener,ReserFra_aqua.Reser_carchapFragmentListener,HomeFragment.HomeFragmentListener,MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.CurrentLocationEventListener {
 
 
-
-    static private MapView mapView;
+    public static double cur_lati;
+    public static double cur_longi;
+    public static MapView mapView;
 
     private MapReverseGeoCoder mReverseGeoCoder = null;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    static double start_x;
+    static double start_y;
+    static double finish_x;
+    static double finish_y;
+    static boolean homefrg = false;
+    static boolean mainfrg = false;
     public EditText editText;
     String[] REQUIRED_PERMISSIONS  = {Manifest.permission.ACCESS_FINE_LOCATION};
     static String polytemp[]={};
 
-
-
-
+    public static MapPoint current_point;
     private static final MapPoint default_point = MapPoint.mapPointWithGeoCoord(37.510759, 126.977943);
     private static final MapPoint ichon_point = MapPoint.mapPointWithGeoCoord(37.517090, 126.968893);
     private static final MapPoint dongjag_point = MapPoint.mapPointWithGeoCoord(37.506060, 126.977329);
@@ -95,7 +100,131 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private static final MapPoint jamsil_point = MapPoint.mapPointWithGeoCoord(37.518266, 127.081630);
     private static final MapPoint mangwon_point = MapPoint.mapPointWithGeoCoord(37.553422, 126.896874);
 
+    public static final MapPoint Heukseok_point = MapPoint.mapPointWithGeoCoord(37.508817, 126.963763);
 
+    //public static final MapPoint start_point = MapPoint.mapPointWithGeoCoord(start_x, start_y);
+    //public static final MapPoint finish_point = MapPoint.mapPointWithGeoCoord(finish_x, finish_y);
+    //카셰어링 쏘카
+    public static final MapPoint socar_seocho_point = MapPoint.mapPointWithGeoCoord(37.491448, 126.989250);
+    public static final MapPoint socar_dobong_point = MapPoint.mapPointWithGeoCoord(37.660034, 127.048132);
+    public static final MapPoint socar_seodaemoon_point = MapPoint.mapPointWithGeoCoord(37.580468, 126.952700);
+    public static final MapPoint socar_gangnam_point = MapPoint.mapPointWithGeoCoord(37.513024, 127.024456);
+    public static final MapPoint socar_gangnam2_point = MapPoint.mapPointWithGeoCoord(37.513086, 127.064813);
+    public static final MapPoint socar_seongbook_point = MapPoint.mapPointWithGeoCoord(37.599415, 127.004563);
+    public static final MapPoint socar_gangseo_point = MapPoint.mapPointWithGeoCoord(37.577174, 126.818345);
+    public static final MapPoint socar_dongjak_point = MapPoint.mapPointWithGeoCoord(37.510217, 126.961446);
+    public static final MapPoint socar_dongjak2_point = MapPoint.mapPointWithGeoCoord(37.506373, 126.964428);
+    public static final MapPoint socar_dongjak3_point = MapPoint.mapPointWithGeoCoord(37.507256, 126.960073);
+    public static final MapPoint socar_dongjak4_point = MapPoint.mapPointWithGeoCoord(37.506003, 126.956946);
+    public static final MapPoint socar_dongjak5_point = MapPoint.mapPointWithGeoCoord(37.508652, 126.962812);
+    public static final MapPoint socar_dongjak6_point = MapPoint.mapPointWithGeoCoord(37.506434, 126.962319);
+    public static final MapPoint socar_dongjak7_point = MapPoint.mapPointWithGeoCoord(37.496503, 126.937377);
+    public static final MapPoint socar_dongjak8_point = MapPoint.mapPointWithGeoCoord(37.493656, 126.959286);
+    public static final MapPoint socar_dongjak9_point = MapPoint.mapPointWithGeoCoord(37.500958, 126.950566);
+    public static final MapPoint socar_dongjak10_point = MapPoint.mapPointWithGeoCoord(37.506517, 126.942316);
+    public static final MapPoint socar_dongjak11_point = MapPoint.mapPointWithGeoCoord(37.502200, 126.943039);
+    public static final MapPoint socar_dongjak12_point = MapPoint.mapPointWithGeoCoord(37.501819, 126.950008);
+    public static final MapPoint socar_yongsan_point = MapPoint.mapPointWithGeoCoord(37.524564, 126.966313);
+    public static final MapPoint socar_yongsan2_point = MapPoint.mapPointWithGeoCoord(37.533708, 126.952890);
+    public static final MapPoint socar_yongsan3_point = MapPoint.mapPointWithGeoCoord(37.528929, 126.968565);
+    public static final MapPoint socar_yongsan4_point = MapPoint.mapPointWithGeoCoord(37.527802, 126.965365);
+    public static final MapPoint socar_ydp_point = MapPoint.mapPointWithGeoCoord(37.534579, 126.900320);
+    public static final MapPoint socar_ydp2_point = MapPoint.mapPointWithGeoCoord(37.535025, 126.902501);
+    public static final MapPoint socar_ydp3_point = MapPoint.mapPointWithGeoCoord(37.520043, 126.891412);
+    public static final MapPoint socar_ydp4_point = MapPoint.mapPointWithGeoCoord(37.519337, 126.886226);
+    public static final MapPoint socar_ydp5_point = MapPoint.mapPointWithGeoCoord(37.523144, 126.923056);
+
+    //카셰어링 그린카
+    public static final MapPoint gcar_dongjak_point = MapPoint.mapPointWithGeoCoord(37.507205, 126.960566);
+    public static final MapPoint gcar_dongjak2_point = MapPoint.mapPointWithGeoCoord(37.506147, 126.970470);
+    public static final MapPoint gcar_dongjak3_point = MapPoint.mapPointWithGeoCoord(37.507378, 126.949504);
+    public static final MapPoint gcar_dongjak4_point = MapPoint.mapPointWithGeoCoord(37.507503, 126.943666);
+    public static final MapPoint gcar_dongjak5_point = MapPoint.mapPointWithGeoCoord(37.505298, 126.944191);
+
+    //카풀 타다
+
+
+    //전동킥보드 킥고잉
+    public static final MapPoint kick_gangnam_point = MapPoint.mapPointWithGeoCoord(37.510243, 127.043878);
+    public static final MapPoint kick_gangnam2_point = MapPoint.mapPointWithGeoCoord(37.508713, 127.038535);
+    public static final MapPoint kick_gangnam3_point = MapPoint.mapPointWithGeoCoord(37.507305, 127.033782);
+    public static final MapPoint kick_gangnam4_point = MapPoint.mapPointWithGeoCoord(37.511529, 127.048042);
+    public static final MapPoint kick_gangnam5_point = MapPoint.mapPointWithGeoCoord(37.512735, 127.052574);
+    public static final MapPoint kick_gangnam6_point = MapPoint.mapPointWithGeoCoord(37.505629, 127.041091);
+    public static final MapPoint kick_gangnam7_point = MapPoint.mapPointWithGeoCoord(37.507803, 127.045332);
+    public static final MapPoint kick_gangnam8_point = MapPoint.mapPointWithGeoCoord(37.500671, 127.037505);
+    public static final MapPoint kick_gangnam9_point = MapPoint.mapPointWithGeoCoord(37.497775, 127.028138);
+    public static final MapPoint kick_gangnam10_point = MapPoint.mapPointWithGeoCoord(37.502356, 127.043223);
+    public static final MapPoint kick_gangnam11_point = MapPoint.mapPointWithGeoCoord(37.503824, 127.048234);
+    public static final MapPoint kick_gangnam12_point = MapPoint.mapPointWithGeoCoord(37.496177, 127.049411);
+    public static final MapPoint kick_gangnam13_point = MapPoint.mapPointWithGeoCoord(37.498812, 127.044803);
+    public static final MapPoint kick_gangnam14_point = MapPoint.mapPointWithGeoCoord(37.499547, 127.047199);
+    public static final MapPoint kick_gangnam15_point = MapPoint.mapPointWithGeoCoord(37.500757, 127.050413);
+
+    //공유자전거 따릉이
+    public static final MapPoint dda_dongjak_point = MapPoint.mapPointWithGeoCoord(37.509325, 126.963446);
+    public static final MapPoint dda_dongjak2_point = MapPoint.mapPointWithGeoCoord(37.508991, 126.963313);
+    public static final MapPoint dda_dongjak3_point = MapPoint.mapPointWithGeoCoord(37.505960, 126.969179);
+    public static final MapPoint dda_dongjak4_point = MapPoint.mapPointWithGeoCoord(37.506316, 126.968925);
+    public static final MapPoint dda_dongjak5_point = MapPoint.mapPointWithGeoCoord(37.505352, 126.966037);
+    public static final MapPoint dda_dongjak6_point = MapPoint.mapPointWithGeoCoord(37.507074, 126.959039);
+    public static final MapPoint dda_dongjak7_point = MapPoint.mapPointWithGeoCoord(37.502288, 126.948290);
+    public static final MapPoint dda_dongjak8_point = MapPoint.mapPointWithGeoCoord(37.512831, 126.952401);
+    public static final MapPoint dda_dongjak9_point = MapPoint.mapPointWithGeoCoord(37.500900, 126.941643);
+    public static final MapPoint dda_dongjak10_point = MapPoint.mapPointWithGeoCoord(37.504605, 126.939041);
+    public static final MapPoint dda_dongjak11_point = MapPoint.mapPointWithGeoCoord(37.505663, 126.939459);
+    public static final MapPoint dda_dongjak12_point = MapPoint.mapPointWithGeoCoord(37.510511, 126.944821);
+    public static final MapPoint dda_dongjak13_point = MapPoint.mapPointWithGeoCoord(37.496617, 126.953610);
+    public static final MapPoint dda_dongjak14_point = MapPoint.mapPointWithGeoCoord(37.503170, 126.976070);
+    public static final MapPoint dda_dongjak15_point = MapPoint.mapPointWithGeoCoord(37.503110, 126.977274);
+
+    //렌트카 렌트나우
+    public static final MapPoint rentnow_nowon_point = MapPoint.mapPointWithGeoCoord(37.656332, 127.064076);
+    public static final MapPoint rentnow_gundae_point = MapPoint.mapPointWithGeoCoord(37.540558, 127.068295);
+    public static final MapPoint rentnow_cheonho_point = MapPoint.mapPointWithGeoCoord(37.538319, 127.123108);
+
+    //지하철 7호선
+
+    public static final MapPoint subway_sindaebang_point = MapPoint.mapPointWithGeoCoord(37.499751, 126.928178);
+    public static final MapPoint subway_boramae_point = MapPoint.mapPointWithGeoCoord(37.500210, 126.920303);
+    public static final MapPoint subway_shinpoong_point = MapPoint.mapPointWithGeoCoord(37.500385, 126.908958);
+    public static final MapPoint subway_daelim_point = MapPoint.mapPointWithGeoCoord(37.493313, 126.895776);
+    public static final MapPoint subway_namguro_point = MapPoint.mapPointWithGeoCoord(37.486336, 126.887263);
+    public static final MapPoint subway_gasandigital_point = MapPoint.mapPointWithGeoCoord(37.481094, 126.882498);
+    public static final MapPoint subway_chulsan_point = MapPoint.mapPointWithGeoCoord(37.476202, 126.868240);
+    public static final MapPoint subway_gwangmyoung_point = MapPoint.mapPointWithGeoCoord(37.479485, 126.854696);
+    public static final MapPoint subway_chunwang_point = MapPoint.mapPointWithGeoCoord(37.486865, 126.838735);
+    public static final MapPoint subway_onsu_point = MapPoint.mapPointWithGeoCoord(37.492355, 126.823559);
+    public static final MapPoint subway_kkachiwool_point = MapPoint.mapPointWithGeoCoord(37.506488, 126.811445);
+    public static final MapPoint subway_jangseung_point = MapPoint.mapPointWithGeoCoord(37.504948, 126.939180);
+    public static final MapPoint subway_sangdo_point = MapPoint.mapPointWithGeoCoord(37.503110, 126.947753);
+    public static final MapPoint subway_soongsil_point = MapPoint.mapPointWithGeoCoord(37.496561, 126.953492);
+    public static final MapPoint subway_namseong_point = MapPoint.mapPointWithGeoCoord(37.484884, 126.970662);
+    public static final MapPoint subway_isu_point = MapPoint.mapPointWithGeoCoord(37.485219, 126.981601);
+    public static final MapPoint subway_naebang_point = MapPoint.mapPointWithGeoCoord(37.487660, 126.993624);
+    public static final MapPoint subway_gosok_point = MapPoint.mapPointWithGeoCoord(37.506005, 127.004390);
+    public static final MapPoint subway_banpo_point = MapPoint.mapPointWithGeoCoord(37.508153, 127.011635);
+    public static final MapPoint subway_nonhyeon_point = MapPoint.mapPointWithGeoCoord(37.511073, 127.021316);
+    public static final MapPoint subway_hakdong_point = MapPoint.mapPointWithGeoCoord(37.514240, 127.031592);
+    public static final MapPoint subway_gangnamgucheong_point = MapPoint.mapPointWithGeoCoord(37.517162, 127.041282);
+    public static final MapPoint subway_cheongdam_point = MapPoint.mapPointWithGeoCoord(37.519077, 127.051804);
+    public static final MapPoint subway_ddukseom_point = MapPoint.mapPointWithGeoCoord(37.531590, 127.066687);
+    public static final MapPoint subway_gundae_point = MapPoint.mapPointWithGeoCoord(37.540405, 127.069235);
+    public static final MapPoint subway_childrenpark_point = MapPoint.mapPointWithGeoCoord(37.547920, 127.074605);
+    public static final MapPoint subway_gunja_point = MapPoint.mapPointWithGeoCoord(37.557155, 127.079485);
+    public static final MapPoint subway_junggok_point = MapPoint.mapPointWithGeoCoord(37.565813, 127.084252);
+    public static final MapPoint subway_yongmasan_point = MapPoint.mapPointWithGeoCoord(37.573638, 127.086739);
+    public static final MapPoint subway_sagajeong_point = MapPoint.mapPointWithGeoCoord(37.580957, 127.088492);
+    public static final MapPoint subway_meonmok_point = MapPoint.mapPointWithGeoCoord(37.588765, 127.087489);
+    public static final MapPoint subway_sangbong_point = MapPoint.mapPointWithGeoCoord(37.596863, 127.085293);
+    public static final MapPoint subway_junghwa_point = MapPoint.mapPointWithGeoCoord(37.602535, 127.0779267);
+    public static final MapPoint subway_meokgol_point = MapPoint.mapPointWithGeoCoord(37.610778, 127.077699);
+    public static final MapPoint seven_line[] = {subway_kkachiwool_point, subway_onsu_point, subway_chunwang_point, subway_gwangmyoung_point, subway_chulsan_point,
+            subway_gasandigital_point, subway_namguro_point, subway_daelim_point, subway_shinpoong_point, subway_boramae_point, subway_sindaebang_point, subway_jangseung_point,
+            subway_sangdo_point, subway_soongsil_point, subway_namseong_point, subway_isu_point, subway_naebang_point,
+            subway_gosok_point, subway_banpo_point, subway_nonhyeon_point, subway_hakdong_point, subway_gangnamgucheong_point, subway_cheongdam_point,
+            subway_ddukseom_point, subway_gundae_point, subway_childrenpark_point, subway_gunja_point, subway_junggok_point, subway_yongmasan_point,
+            subway_sagajeong_point, subway_meonmok_point, subway_sangbong_point, subway_junghwa_point, subway_meokgol_point};
 
 
     public BottomNavigationView mMainNav;
@@ -107,16 +236,10 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     private ReserFragment reserFragment;
     private CarchapFragment carchapFragment;
 
-
     private LocationManager locationManager;
     private static final int REQUEST_CODE_LOCATIOM=2;
 
     static ArrayList<String> kakaoresult= new ArrayList<String>();
-
-
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -149,17 +272,10 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             checkRunTimePermission();
         }
 
-
-
-
         final ImageButton main_temp_intro=(ImageButton)findViewById(id.imageButton_main_temp);
         Drawable alpha_main_temp_intro=main_temp_intro.getBackground();
         alpha_main_temp_intro.setAlpha(20);
         main_temp_intro.bringToFront();
-
-
-
-
 
         final ConstraintLayout constraintLayout=(ConstraintLayout)findViewById(R.id.home_findbar);
 
@@ -171,27 +287,28 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         Log.d("TEST22","@222");
         BottomNavigationHelper.disableShiftMode(mMainNav);
 
-
-
-
-
         //하단 액션바 기능
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-
                 switch (menuItem.getItemId()){
 
                     case nav_home:
                         //menuItem.setIcon(R.drawable.home_findpath);
                         setFragment(homeFragment_first);
+                        homefrg=true;
+                        mainfrg=false;
+
                         return true;
 
                     case nav_bike:
                         //menuItem.setIcon(R.drawable.home_allinonecarchap);
-                        setFragment(bikeFragment);
+                        setFragment(homeFragment);
+                        homefrg=false;
+                        mainfrg=true;
+
                         return true;
 
                     case nav_pinmove:
@@ -240,8 +357,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
             }
         });
 
-
-
         //tracking mode 제어 3종류
         final ImageButton button3 = (ImageButton)findViewById(R.id.button);
         button3.bringToFront();
@@ -270,7 +385,6 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     button3.setImageResource(R.drawable.trackmode_default);
                 }
 
-
             }
         });
         main_temp_intro.setOnClickListener(new View.OnClickListener(){
@@ -288,12 +402,7 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);// | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
-
-
-
         // 중심점 변경
-
-
 
         // 줌 레벨 변경
         mapView.setZoomLevel(5, true);
@@ -315,15 +424,11 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     FragmentTransaction fragmentTransaction  = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(main_frame,  homeFragment.newInstance("current_location",main_current_location.getText().toString()));
                     fragmentTransaction.commit();
-
                 }
-
             }
 
 
         });
-
-
     }
 
     private void showAll(MapPoint mapPoint, MapPoint mapPoint2) {
@@ -334,7 +439,23 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
     }
 
-    final private void showpolyline(MapPoint mapPoint, MapPoint mapPoint2){
+    static final public void showpolyline(MapPoint mapPoint, MapPoint mapPoint2){
+
+        int padding = 200;
+        float minZoomLevel = 3;
+        float maxZoomLevel = 8;
+        MapPointBounds bounds = new MapPointBounds(mapPoint, mapPoint2);
+        MapPolyline polyline = new MapPolyline();
+
+        polyline.setTag(1000);
+        polyline.setLineColor(Color.argb(128, 255, 51, 0));
+        polyline.addPoint(mapPoint);
+        polyline.addPoint(mapPoint2);
+        mapView.addPolyline(polyline);
+        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(bounds, padding, minZoomLevel, maxZoomLevel));
+    }
+
+    final private void showpolyline_carchap(MapPoint mapPoint, MapPoint mapPoint2){
         int padding = 200;
         float minZoomLevel = 3;
         float maxZoomLevel = 8;
@@ -539,11 +660,59 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
         mDefaultMarker.setItemName(name);
         mDefaultMarker.setMapPoint(mapPoint);
         mDefaultMarker.setTag(setTag);
+        mDefaultMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage);
+        if(pintype.equals("carsharing_socar")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_socar);
+        }
+        else if(pintype.equals("carsharing_gcar")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_greencar);
+        }
+        else if(pintype.equals("bikesharing_dda")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_bike);
+        }
+        else if(pintype.equals("subway")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_subway);
+        }
+        else if(pintype.equals("current_location")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.current_location);
+        }
+        else if(pintype.equals("start_location")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_start);
+        }
+        else if(pintype.equals("finish_location")){
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_finish);
+        }
+        else {
+            mDefaultMarker.setCustomImageResourceId(R.drawable.marker_default);
+        }
         mapView.addPOIItem(mDefaultMarker);
         mapView.selectPOIItem(mDefaultMarker, true);
         mapView.setMapCenterPoint(mapPoint, true);
     }
 
+    /*for capstone*/
+    public static double distance(double lat1, double lon1, double lat2, double lon2) {
+
+        double theta = lon1 - lon2;
+        double dist;
+        dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1609.344;
+        return (dist);
+    }
+
+    // This function converts decimal degrees to radians
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    // This function converts radians to decimal degrees
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
 
 
     CharSequence resentstartiuput;
@@ -687,6 +856,12 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint currentLocation, float v) {
         MapPoint.GeoCoordinate mapPointGeo = currentLocation.getMapPointGeoCoord();
+        if(CarchapFragment.location_temp==1){
+            cur_lati = mapPointGeo.latitude;
+            cur_longi = mapPointGeo.longitude;
+            current_point = MapPoint.mapPointWithGeoCoord(cur_lati, cur_longi);
+        }
+        CarchapFragment.location_temp=0;
         Log.i("111", String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, v));
 
     }
@@ -939,6 +1114,8 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                     returnValue_x=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("x").toString();
                     returnValue_y=json.getAsJsonArray("documents").get(0).getAsJsonObject().getAsJsonPrimitive("y").toString();
 
+
+
                     //Log.d("REST GET x", "The response is :" +returnValue_y +returnValue_x+Double.parseDouble(returnValue_y));
 
                     kakaoresult.add(returnValue);
@@ -964,35 +1141,295 @@ public class MainActivity extends FragmentActivity implements MapView.MapViewEve
                         Log.d("drag_button_test1","if문 돌입");
                         createMarker(mapView,kakaoresult.get(0),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"","")), Double.parseDouble(kakaoresult.get(1).replace("\"",""))),1,"keyword");
                         createMarker(mapView,kakaoresult.get(3),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"","")), Double.parseDouble(kakaoresult.get(4).replace("\"",""))),1,"keyword");
-                        createMarker(mapView,kakaoresult.get(3),MapPoint.mapPointWithGeoCoord((Double.parseDouble(kakaoresult.get(2).replace("\"",""))+Double.parseDouble(kakaoresult.get(5).replace("\"","")))/2,(Double.parseDouble(kakaoresult.get(1).replace("\"",""))+Double.parseDouble(kakaoresult.get(4).replace("\"","")))/2),1,"keyword");
+                        //createMarker(mapView,kakaoresult.get(3),MapPoint.mapPointWithGeoCoord((Double.parseDouble(kakaoresult.get(2).replace("\"",""))+Double.parseDouble(kakaoresult.get(5).replace("\"","")))/2,(Double.parseDouble(kakaoresult.get(1).replace("\"",""))+Double.parseDouble(kakaoresult.get(4).replace("\"","")))/2),1,"keyword");
                         Log.d("drag_button_test2", String.valueOf((Double.parseDouble(kakaoresult.get(1).replace("\"",""))+Double.parseDouble(kakaoresult.get(4).replace("\"","")))/2));
                                 //(Double.parseDouble(kakaoresult.get(2).replace("\"","")))
-                        MapPolyline polyline = new MapPolyline();
-                        polyline.setTag(1001);
-                        polyline.setLineColor(Color.argb(128, 255, 51, 0));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"","")), Double.parseDouble(kakaoresult.get(1).replace("\"",""))));
-                        polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"","")),Double.parseDouble(kakaoresult.get(4).replace("\"",""))));
-                        mapView.addPolyline(polyline);
-                        MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
-                        int padding = 300; // px
-                        mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding, 3,8));
+
                         //mapView.removeAllPOIItems();
                         Log.d("polyline_test", String.valueOf(mapView.findPolylineByTag(1001)));
                         Log.d("Rtttest3", String.valueOf(kakaoresult.size()));
                         //showpolyline(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5)), Double.parseDouble(kakaoresult.get(4))),MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5)), Double.parseDouble(kakaoresult.get(4))));
                         Log.d("Rtttest3", String.valueOf(kakaoresult.size()));
+
+                        start_x=Double.parseDouble(kakaoresult.get(2).replace("\"",""));
+                        start_y=Double.parseDouble(kakaoresult.get(1).replace("\"",""));
+
+                        finish_x=Double.parseDouble(kakaoresult.get(5).replace("\"",""));
+                        finish_y=Double.parseDouble(kakaoresult.get(4).replace("\"",""));
+
+                        MapPoint start_point = MapPoint.mapPointWithGeoCoord(start_x, start_y);
+                        MapPoint finish_point = MapPoint.mapPointWithGeoCoord(finish_x, finish_y);
+
+                        if(homefrg) {
+                            MapPolyline polyline = new MapPolyline();
+                            polyline.setTag(1001);
+                            polyline.setLineColor(Color.argb(128, 255, 51, 0));
+                            polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(2).replace("\"", "")), Double.parseDouble(kakaoresult.get(1).replace("\"", ""))));
+                            polyline.addPoint(MapPoint.mapPointWithGeoCoord(Double.parseDouble(kakaoresult.get(5).replace("\"", "")), Double.parseDouble(kakaoresult.get(4).replace("\"", ""))));
+                            mapView.addPolyline(polyline);
+                            MapPointBounds mapPointBounds = new MapPointBounds(polyline.getMapPoints());
+                            int padding = 300; // px
+                            mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds, padding, 3, 8));
+                        }
+
+
+                        if(mainfrg) {
+                            CarchapFragment.location_temp = 1;
+                            mapView.removeAllPOIItems();
+                            mapView.removeAllPolylines();
+                            String trackingcheck="TrackingModeOff";
+                            mapView.setCurrentLocationTrackingMode((MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading));
+                            mapView.setShowCurrentLocationMarker(true);
+                            Log.d("TEST2", String.valueOf(mapView.getCurrentLocationTrackingMode()));
+
+                            //출발지, 도착지
+                            MainActivity.createMarker(mapView,"출발지", start_point,1,"start_location");
+                            MainActivity.createMarker(mapView,"도착지", finish_point,1,"finish_location");
+
+                            //현위치
+                            MainActivity.createMarker(mapView,"현위치", current_point,1,"current_location");
+
+                            //따릉이
+                            MainActivity.createMarker(mapView,"흑석역 1번 출구", MainActivity.dda_dongjak_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"흑석역 4번 출구", MainActivity.dda_dongjak2_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"한강현대아파트 건너편", MainActivity.dda_dongjak3_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"비계 버스정류소", MainActivity.dda_dongjak4_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"흑석한강푸르지오", MainActivity.dda_dongjak5_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"중앙대학교 정문", MainActivity.dda_dongjak6_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"상도역 1번 출구", MainActivity.dda_dongjak7_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"노들역 1번 출구", MainActivity.dda_dongjak8_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"상도아이파크아파트", MainActivity.dda_dongjak9_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"장승배기역 2번 출구", MainActivity.dda_dongjak10_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"장승배기역 5번 출구", dda_dongjak11_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"삼익아파트", MainActivity.dda_dongjak12_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"숭실대입구역 3번 출구", MainActivity.dda_dongjak13_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"동작역 7번 출구", MainActivity.dda_dongjak14_point,1,"bikesharing_dda");
+                            MainActivity.createMarker(mapView,"동작역 5번 출구", MainActivity.dda_dongjak15_point,1,"bikesharing_dda");
+
+                            //지하철역
+                            MainActivity.createMarker(mapView,"신대방삼거리역", MainActivity.subway_sindaebang_point,1,"subway");
+                            MainActivity.createMarker(mapView,"보라매역", MainActivity.subway_boramae_point,1,"subway");
+                            MainActivity.createMarker(mapView,"신풍역", MainActivity.subway_shinpoong_point,1,"subway");
+                            MainActivity.createMarker(mapView,"대림역", MainActivity.subway_daelim_point,1,"subway");
+                            MainActivity.createMarker(mapView,"남구로역", MainActivity.subway_namguro_point,1,"subway");
+                            MainActivity.createMarker(mapView,"가산디지털단지역", MainActivity.subway_gasandigital_point,1,"subway");
+                            MainActivity.createMarker(mapView,"철산역", MainActivity.subway_chulsan_point,1,"subway");
+                            MainActivity.createMarker(mapView,"광명사거리역", MainActivity.subway_gwangmyoung_point,1,"subway");
+                            MainActivity.createMarker(mapView,"천왕역", MainActivity.subway_chunwang_point,1,"subway");
+                            MainActivity.createMarker(mapView,"온수역", MainActivity.subway_onsu_point,1,"subway");
+                            MainActivity.createMarker(mapView,"까치울역", MainActivity.subway_kkachiwool_point,1,"subway");
+                            MainActivity.createMarker(mapView,"장승배기역",MainActivity.subway_jangseung_point,1,"subway");
+                            MainActivity.createMarker(mapView,"상도역",MainActivity.subway_sangdo_point,1,"subway");
+                            MainActivity.createMarker(mapView,"숭실대입구역",MainActivity.subway_soongsil_point,1,"subway");
+                            MainActivity.createMarker(mapView,"남성역",MainActivity.subway_namseong_point,1,"subway");
+                            MainActivity.createMarker(mapView,"이수역",MainActivity.subway_isu_point,1,"subway");
+                            MainActivity.createMarker(mapView,"내방역", subway_naebang_point,1,"subway");
+                            MainActivity.createMarker(mapView,"고속터미널역",MainActivity.subway_gosok_point,1,"subway");
+                            MainActivity.createMarker(mapView,"반포역",MainActivity.subway_banpo_point,1,"subway");
+                            MainActivity.createMarker(mapView,"논현역",MainActivity.subway_nonhyeon_point,1,"subway");
+                            MainActivity.createMarker(mapView,"학동역",MainActivity.subway_hakdong_point,1,"subway");
+                            MainActivity.createMarker(mapView,"강남구청역",MainActivity.subway_gangnamgucheong_point,1,"subway");
+                            MainActivity.createMarker(mapView,"청담역",MainActivity.subway_cheongdam_point,1,"subway");
+                            MainActivity.createMarker(mapView,"뚝섬유원지역",MainActivity.subway_ddukseom_point,1,"subway");
+                            MainActivity.createMarker(mapView,"건대입구역",MainActivity.subway_gundae_point,1,"subway");
+                            MainActivity.createMarker(mapView,"어린이대공원역",MainActivity.subway_childrenpark_point,1,"subway");
+                            MainActivity.createMarker(mapView,"군자역",MainActivity.subway_gunja_point,1,"subway");
+                            MainActivity.createMarker(mapView,"중곡역",MainActivity.subway_junggok_point,1,"subway");
+                            MainActivity.createMarker(mapView,"용마산역",MainActivity.subway_yongmasan_point,1,"subway");
+                            MainActivity.createMarker(mapView,"사가정역",MainActivity.subway_sagajeong_point,1,"subway");
+                            MainActivity.createMarker(mapView,"면목역",MainActivity.subway_meonmok_point,1,"subway");
+                            MainActivity.createMarker(mapView,"상봉역",MainActivity.subway_sangbong_point,1,"subway");
+                            MainActivity.createMarker(mapView,"중화역",MainActivity.subway_junghwa_point,1,"subway");
+                            MainActivity.createMarker(mapView,"먹골역",MainActivity.subway_meokgol_point,1,"subway");
+
+                            MapPoint.GeoCoordinate current_coordinate =MainActivity.current_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate start_coordinate = start_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate finish_coordinate = finish_point.getMapPointGeoCoord();
+
+                            //따릉이 좌표
+                            MapPoint.GeoCoordinate dda_dongjak_coordinate = MainActivity.dda_dongjak_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak2_coordinate = MainActivity.dda_dongjak2_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak3_coordinate = MainActivity.dda_dongjak3_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak4_coordinate = MainActivity.dda_dongjak4_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak5_coordinate = MainActivity.dda_dongjak5_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak6_coordinate = MainActivity.dda_dongjak6_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak7_coordinate = MainActivity.dda_dongjak7_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak8_coordinate = MainActivity.dda_dongjak8_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak9_coordinate = MainActivity.dda_dongjak9_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak10_coordinate = MainActivity.dda_dongjak10_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak11_coordinate = MainActivity.dda_dongjak11_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak12_coordinate = MainActivity.dda_dongjak12_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak13_coordinate = MainActivity.dda_dongjak13_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak14_coordinate = MainActivity.dda_dongjak14_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate dda_dongjak15_coordinate = MainActivity.dda_dongjak15_point.getMapPointGeoCoord();
+
+                            //지하철역 좌표
+                            MapPoint.GeoCoordinate subway_boramae_coordinate = MainActivity.subway_boramae_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_shinpoong_coordinate = MainActivity.subway_shinpoong_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_daelim_coordinate = MainActivity.subway_daelim_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_namguro_coordinate = MainActivity.subway_namguro_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_gasandigital_coordinate = MainActivity.subway_gasandigital_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_chulsan_coordinate = MainActivity.subway_chulsan_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_gwangmyoung_coordinate = MainActivity.subway_gwangmyoung_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_chunwang_coordinate = MainActivity.subway_chunwang_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_onsu_coordinate = MainActivity.subway_onsu_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_kkachiwool_coordinate = MainActivity.subway_kkachiwool_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_sindaebang_coordinate = MainActivity.subway_sindaebang_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_jangseung_coordinate = MainActivity.subway_jangseung_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_sangdo_coordinate = MainActivity.subway_sangdo_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_soongsil_coordinate = MainActivity.subway_soongsil_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_namseong_coordinate = MainActivity.subway_namseong_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_isu_coordinate = MainActivity.subway_isu_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_naebang_coordinate = MainActivity.subway_naebang_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_gosok_coordinate = MainActivity.subway_gosok_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_banpo_coordinate = MainActivity.subway_banpo_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_nonhyeon_coordinate = MainActivity.subway_nonhyeon_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_hakdong_coordinate = MainActivity.subway_hakdong_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_gangnamgucheong_coordinate = MainActivity.subway_gangnamgucheong_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_cheongdam_coordinate = MainActivity.subway_cheongdam_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_ddukseom_coordinate = MainActivity.subway_ddukseom_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_gundae_coordinate = MainActivity.subway_gundae_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_childrenpark_coordinate = MainActivity.subway_childrenpark_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_gunja_coordinate = MainActivity.subway_gunja_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_junggok_coordinate = MainActivity.subway_junggok_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_yongmasan_coordinate = MainActivity.subway_yongmasan_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_sagajeong_coordinate = MainActivity.subway_sagajeong_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_meonmok_coordinate = MainActivity.subway_meonmok_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_sangbong_coordinate = MainActivity.subway_sangbong_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_junghwa_coordinate = MainActivity.subway_junghwa_point.getMapPointGeoCoord();
+                            MapPoint.GeoCoordinate subway_meokgol_coordinate = MainActivity.subway_meokgol_point.getMapPointGeoCoord();
+
+                            ArrayList<MapPoint.GeoCoordinate> bicyclelist=new ArrayList<MapPoint.GeoCoordinate>();
+                            bicyclelist.add(dda_dongjak_coordinate);
+                            bicyclelist.add(dda_dongjak2_coordinate);
+                            bicyclelist.add(dda_dongjak3_coordinate);
+                            bicyclelist.add(dda_dongjak4_coordinate);
+                            bicyclelist.add(dda_dongjak5_coordinate);
+                            bicyclelist.add(dda_dongjak6_coordinate);
+                            bicyclelist.add(dda_dongjak7_coordinate);
+                            bicyclelist.add(dda_dongjak8_coordinate);
+                            bicyclelist.add(dda_dongjak9_coordinate);
+                            bicyclelist.add(dda_dongjak10_coordinate);
+                            bicyclelist.add(dda_dongjak11_coordinate);
+                            bicyclelist.add(dda_dongjak12_coordinate);
+                            bicyclelist.add(dda_dongjak13_coordinate);
+                            bicyclelist.add(dda_dongjak14_coordinate);
+                            bicyclelist.add(dda_dongjak15_coordinate);
+                            double bicycle_min=100000.0; double bicycle_minx=0.0; double bicycle_miny=0.0;
+                            for(int i=0;i<bicyclelist.size();i++){
+                                if(MainActivity.distance(start_coordinate.latitude,start_coordinate.longitude,bicyclelist.get(i).latitude,bicyclelist.get(i).longitude)<bicycle_min) {
+                                    bicycle_min=MainActivity.distance(start_coordinate.latitude,start_coordinate.longitude,bicyclelist.get(i).latitude,bicyclelist.get(i).longitude);
+                                    bicycle_minx=bicyclelist.get(i).latitude; bicycle_miny=bicyclelist.get(i).longitude;
+                                }
+                            }
+                            double bicycle_distance = bicycle_min;
+
+                            ArrayList<MapPoint.GeoCoordinate> subwaylist=new ArrayList<MapPoint.GeoCoordinate>();
+                            subwaylist.add(subway_kkachiwool_coordinate);
+                            subwaylist.add(subway_onsu_coordinate);
+                            subwaylist.add(subway_chunwang_coordinate);
+                            subwaylist.add(subway_gwangmyoung_coordinate);
+                            subwaylist.add(subway_chulsan_coordinate);
+                            subwaylist.add(subway_gasandigital_coordinate);
+                            subwaylist.add(subway_namguro_coordinate);
+                            subwaylist.add(subway_daelim_coordinate);
+                            subwaylist.add(subway_shinpoong_coordinate);
+                            subwaylist.add(subway_boramae_coordinate);
+                            subwaylist.add(subway_sindaebang_coordinate);
+                            subwaylist.add(subway_jangseung_coordinate);
+                            subwaylist.add(subway_sangdo_coordinate);
+                            subwaylist.add(subway_soongsil_coordinate);
+                            subwaylist.add(subway_namseong_coordinate);
+                            subwaylist.add(subway_isu_coordinate);
+                            subwaylist.add(subway_naebang_coordinate);
+                            subwaylist.add(subway_gosok_coordinate);
+                            subwaylist.add(subway_banpo_coordinate);
+                            subwaylist.add(subway_nonhyeon_coordinate);
+                            subwaylist.add(subway_hakdong_coordinate);
+                            subwaylist.add(subway_gangnamgucheong_coordinate);
+                            subwaylist.add(subway_cheongdam_coordinate);
+                            subwaylist.add(subway_ddukseom_coordinate);
+                            subwaylist.add(subway_gundae_coordinate);
+                            subwaylist.add(subway_childrenpark_coordinate);
+                            subwaylist.add(subway_gunja_coordinate);
+                            subwaylist.add(subway_junggok_coordinate);
+                            subwaylist.add(subway_yongmasan_coordinate);
+                            subwaylist.add(subway_sagajeong_coordinate);
+                            subwaylist.add(subway_meonmok_coordinate);
+                            subwaylist.add(subway_sangbong_coordinate);
+                            subwaylist.add(subway_junghwa_coordinate);
+                            subwaylist.add(subway_meokgol_coordinate);
+
+                            double subway_min=100000.0; double subway_minx=0.0; double subway_miny=0.0;
+                            for(int i=0;i<subwaylist.size();i++){
+                                if(MainActivity.distance(start_coordinate.latitude,start_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude)<subway_min) {
+                                    subway_min=MainActivity.distance(start_coordinate.latitude,start_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude);
+                                    subway_minx=subwaylist.get(i).latitude; subway_miny=subwaylist.get(i).longitude;
+                                }
+                            }
+                            MainActivity.showpolyline(start_point,MapPoint.mapPointWithGeoCoord(subway_minx, subway_miny));
+
+
+                            double subway_distance = subway_min;
+
+                            int start_i = 0;
+                            int finish_i = 0;
+
+                            for(int i = 0; i < seven_line.length - 1; i++) {
+                                MapPoint.GeoCoordinate temp = seven_line[i].getMapPointGeoCoord();
+                                if (subway_minx == temp.latitude && subway_miny == temp.longitude) {
+                                    start_i = i;
+                                }
+                            }
+
+                            subway_min = 100000.0; subway_minx=0.0; subway_miny=0.0;
+                            for(int i=0;i<subwaylist.size();i++){
+                                if(MainActivity.distance(finish_coordinate.latitude,finish_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude)<subway_min) {
+                                    subway_min=MainActivity.distance(finish_coordinate.latitude,finish_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude);
+                                    subway_minx=subwaylist.get(i).latitude; subway_miny=subwaylist.get(i).longitude;
+                                }
+                            }
+                            MainActivity.showpolyline(finish_point,MapPoint.mapPointWithGeoCoord(subway_minx, subway_miny));
+
+
+                            for(int i = 0; i < seven_line.length - 1; i++) {
+                                MapPoint.GeoCoordinate temp = seven_line[i].getMapPointGeoCoord();
+                                if (subway_minx == temp.latitude && subway_miny == temp.longitude) {
+                                    finish_i = i;
+                                }
+                            }
+
+                            if(finish_i > start_i) {
+                                for (int i = start_i; i < finish_i; i++) {
+                                    MapPolyline seven_route = new MapPolyline();
+                                    seven_route.setLineColor(Color.argb(255, 83, 144, 245));
+                                    seven_route.addPoint(seven_line[i]);
+                                    seven_route.addPoint(seven_line[i + 1]);
+                                    mapView.addPolyline(seven_route);
+                                }
+                            }
+                            else {
+                                for(int i = start_i; i > finish_i; i--) {
+                                    MapPolyline seven_route = new MapPolyline();
+                                    seven_route.setLineColor(Color.argb(255, 83, 144, 245));
+                                    seven_route.addPoint(seven_line[i]);
+                                    seven_route.addPoint(seven_line[i - 1]);
+                                    mapView.addPolyline(seven_route);
+                                }
+                            }
+
+                        }
+
+
+
                         kakaoresult.clear();
                     }
-
-
-
 
                 } catch (Exception e) {
                     Log.e("REST GET", "Error: " + e.getMessage());
                 } finally {
                     if (inputStream != null)
                         inputStream.close();
-
                 }
                 /*
                 EditText editText=(EditText) getClass().findViewById(id.editText);

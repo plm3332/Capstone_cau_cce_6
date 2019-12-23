@@ -36,7 +36,7 @@
             android:layout_marginTop="16dp"
             android:background="#f7f8f8"
             android:scaleType="fitXY"
-            android:src="@drawable/imagebutton_carchap_carpool"
+            android:src="@drawable/imagebutton_carchap_subway"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

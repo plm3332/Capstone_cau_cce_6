@@ -2,6 +2,7 @@ package org.techtown.carchap_v11;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -17,10 +18,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapPolyline;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.techtown.carchap_v11.HomeFragment_third.finishname;
+import static org.techtown.carchap_v11.HomeFragment_third.startname;
+import static org.techtown.carchap_v11.MainActivity.current_point;
+import static org.techtown.carchap_v11.MainActivity.dda_dongjak11_point;
+//import static org.techtown.carchap_v11.MainActivity.finish_point;
+import static org.techtown.carchap_v11.MainActivity.finish_x;
+import static org.techtown.carchap_v11.MainActivity.finish_y;
+import static org.techtown.carchap_v11.MainActivity.mapView;
+import static org.techtown.carchap_v11.MainActivity.seven_line;
+//import static org.techtown.carchap_v11.MainActivity.start_point;
+import static org.techtown.carchap_v11.MainActivity.start_x;
+import static org.techtown.carchap_v11.MainActivity.start_y;
+import static org.techtown.carchap_v11.MainActivity.subway_naebang_point;
 
 
 /**
@@ -44,9 +61,11 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private HomeFragmentListener listener;
 
+    public static final MapPoint start_point = MapPoint.mapPointWithGeoCoord(start_x, start_y);
+    public static final MapPoint finish_point = MapPoint.mapPointWithGeoCoord(finish_x, finish_y);
 
-    public EditText editText;
-    public EditText editText2;
+    public static EditText editText;
+    public static EditText editText2;
 
     private Button button;
     private ImageButton imagebutton;
@@ -60,6 +79,8 @@ public class HomeFragment extends Fragment {
         return fragment;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +93,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = (View) inflater.inflate(R.layout.fragment_home, container, false);
         final ConstraintLayout constraintLayout=(ConstraintLayout) view.findViewById(R.id.home_findbar);
@@ -94,6 +116,18 @@ public class HomeFragment extends Fragment {
         Log.v("HomeFragment_current_location_test3","Param1 : "+mParam1 + " Param2 :"+mParam2);
         editText2.setText(mParam2);
 
+        try{
+            if(startname.length()>0)
+                editText.setText(startname);
+            if(finishname.length()>0)
+                editText2.setText(finishname);
+        }catch (NullPointerException e)
+        {
+
+        }
+
+
+
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -111,6 +145,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
 
         imagebutton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -136,7 +171,147 @@ public class HomeFragment extends Fragment {
                     listener.onInputHome_polyline_Sent(input);
                 }
 
+                CarchapFragment.location_temp = 1;
+                mapView.removeAllPOIItems();
+                mapView.removeAllPolylines();
+                String trackingcheck="TrackingModeOff";
+                mapView.setCurrentLocationTrackingMode((MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading));
+                mapView.setShowCurrentLocationMarker(true);
+                Log.d("TEST2", String.valueOf(mapView.getCurrentLocationTrackingMode()));
 
+                MainActivity.createMarker(mapView,"현위치", current_point,1,"current_location");
+                MainActivity.createMarker(mapView,"출발지", start_point,1,"current_location");
+                MainActivity.createMarker(mapView,"도착지", finish_point,1,"current_location");
+                MainActivity.createMarker(mapView,"상도역",MainActivity.subway_sangdo_point,1,"subway");
+                MainActivity.createMarker(mapView,"숭실대입구역",MainActivity.subway_soongsil_point,1,"subway");
+                MainActivity.createMarker(mapView,"남성역",MainActivity.subway_namseong_point,1,"subway");
+                MainActivity.createMarker(mapView,"이수역",MainActivity.subway_isu_point,1,"subway");
+                MainActivity.createMarker(mapView,"내방역", subway_naebang_point,1,"subway");
+                MainActivity.createMarker(mapView,"고속터미널역",MainActivity.subway_gosok_point,1,"subway");
+                MainActivity.createMarker(mapView,"반포역",MainActivity.subway_banpo_point,1,"subway");
+                MainActivity.createMarker(mapView,"논현역",MainActivity.subway_nonhyeon_point,1,"subway");
+                MainActivity.createMarker(mapView,"학동역",MainActivity.subway_hakdong_point,1,"subway");
+                MainActivity.createMarker(mapView,"강남구청역",MainActivity.subway_gangnamgucheong_point,1,"subway");
+                MainActivity.createMarker(mapView,"청담역",MainActivity.subway_cheongdam_point,1,"subway");
+                MainActivity.createMarker(mapView,"뚝섬유원지역",MainActivity.subway_ddukseom_point,1,"subway");
+                MainActivity.createMarker(mapView,"건대입구역",MainActivity.subway_gundae_point,1,"subway");
+                MainActivity.createMarker(mapView,"어린이대공원역",MainActivity.subway_childrenpark_point,1,"subway");
+                MainActivity.createMarker(mapView,"군자역",MainActivity.subway_gunja_point,1,"subway");
+                MainActivity.createMarker(mapView,"중곡역",MainActivity.subway_junggok_point,1,"subway");
+                MainActivity.createMarker(mapView,"용마산역",MainActivity.subway_yongmasan_point,1,"subway");
+                MainActivity.createMarker(mapView,"사가정역",MainActivity.subway_sagajeong_point,1,"subway");
+                MainActivity.createMarker(mapView,"면목역",MainActivity.subway_meonmok_point,1,"subway");
+                MainActivity.createMarker(mapView,"상봉역",MainActivity.subway_sangbong_point,1,"subway");
+                MainActivity.createMarker(mapView,"중화역",MainActivity.subway_junghwa_point,1,"subway");
+                MainActivity.createMarker(mapView,"먹골역",MainActivity.subway_meokgol_point,1,"subway");
+
+                MapPoint.GeoCoordinate current_coordinate =MainActivity.current_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate start_coordinate = start_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate finish_coordinate = finish_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_jangseung_coordinate = MainActivity.subway_jangseung_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_sangdo_coordinate = MainActivity.subway_sangdo_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_soongsil_coordinate = MainActivity.subway_soongsil_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_namseong_coordinate = MainActivity.subway_namseong_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_isu_coordinate = MainActivity.subway_isu_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_naebang_coordinate = MainActivity.subway_naebang_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_gosok_coordinate = MainActivity.subway_gosok_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_banpo_coordinate = MainActivity.subway_banpo_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_nonhyeon_coordinate = MainActivity.subway_nonhyeon_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_hakdong_coordinate = MainActivity.subway_hakdong_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_gangnamgucheong_coordinate = MainActivity.subway_gangnamgucheong_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_cheongdam_coordinate = MainActivity.subway_cheongdam_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_ddukseom_coordinate = MainActivity.subway_ddukseom_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_gundae_coordinate = MainActivity.subway_gundae_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_childrenpark_coordinate = MainActivity.subway_childrenpark_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_gunja_coordinate = MainActivity.subway_gunja_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_junggok_coordinate = MainActivity.subway_junggok_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_yongmasan_coordinate = MainActivity.subway_yongmasan_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_sagajeong_coordinate = MainActivity.subway_sagajeong_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_meonmok_coordinate = MainActivity.subway_meonmok_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_sangbong_coordinate = MainActivity.subway_sangbong_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_junghwa_coordinate = MainActivity.subway_junghwa_point.getMapPointGeoCoord();
+                MapPoint.GeoCoordinate subway_meokgol_coordinate = MainActivity.subway_meokgol_point.getMapPointGeoCoord();
+                ArrayList<MapPoint.GeoCoordinate> subwaylist=new ArrayList<MapPoint.GeoCoordinate>();
+                subwaylist.add(subway_jangseung_coordinate);
+                subwaylist.add(subway_sangdo_coordinate);
+                subwaylist.add(subway_soongsil_coordinate);
+                subwaylist.add(subway_namseong_coordinate);
+                subwaylist.add(subway_isu_coordinate);
+                subwaylist.add(subway_naebang_coordinate);
+                subwaylist.add(subway_gosok_coordinate);
+                subwaylist.add(subway_banpo_coordinate);
+                subwaylist.add(subway_nonhyeon_coordinate);
+                subwaylist.add(subway_hakdong_coordinate);
+                subwaylist.add(subway_gangnamgucheong_coordinate);
+                subwaylist.add(subway_cheongdam_coordinate);
+                subwaylist.add(subway_ddukseom_coordinate);
+                subwaylist.add(subway_gundae_coordinate);
+                subwaylist.add(subway_childrenpark_coordinate);
+                subwaylist.add(subway_gunja_coordinate);
+                subwaylist.add(subway_junggok_coordinate);
+                subwaylist.add(subway_yongmasan_coordinate);
+                subwaylist.add(subway_sagajeong_coordinate);
+                subwaylist.add(subway_meonmok_coordinate);
+                subwaylist.add(subway_sangbong_coordinate);
+                subwaylist.add(subway_junghwa_coordinate);
+                subwaylist.add(subway_meokgol_coordinate);
+
+                double min=100000.0;double minx=0.0;double miny=0.0;
+                for(int i=0;i<subwaylist.size();i++){
+                    if(MainActivity.distance(start_coordinate.latitude,start_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude)<min) {
+                        min=MainActivity.distance(start_coordinate.latitude,start_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude);
+                        minx=subwaylist.get(i).latitude;miny=subwaylist.get(i).longitude;
+                    }
+                }
+                MainActivity.showpolyline(start_point,MapPoint.mapPointWithGeoCoord(minx,miny));
+
+
+                int start_i = 0;
+                int finish_i = 0;
+
+                for(int i = 0; i < seven_line.length - 1; i++) {
+                    MapPoint.GeoCoordinate temp = seven_line[i].getMapPointGeoCoord();
+                    if (minx == temp.latitude && miny == temp.longitude) {
+                        start_i = i;
+                    }
+                }
+
+
+                min=100000.0; minx=0.0; miny=0.0;
+                for(int i=0;i<subwaylist.size();i++){
+                    if(MainActivity.distance(finish_coordinate.latitude,finish_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude)<min) {
+                        min=MainActivity.distance(finish_coordinate.latitude,finish_coordinate.longitude,subwaylist.get(i).latitude,subwaylist.get(i).longitude);
+                        minx=subwaylist.get(i).latitude;miny=subwaylist.get(i).longitude;
+                    }
+                }
+                MainActivity.showpolyline(finish_point,MapPoint.mapPointWithGeoCoord(minx,miny));
+
+
+                for(int i = 0; i < seven_line.length - 1; i++) {
+                    MapPoint.GeoCoordinate temp = seven_line[i].getMapPointGeoCoord();
+                    if (minx == temp.latitude && miny == temp.longitude) {
+                        finish_i = i;
+                    }
+                }
+
+                if(finish_i > start_i) {
+                    for (int i = start_i; i < finish_i; i++) {
+                        MapPolyline seven_route = new MapPolyline();
+                        seven_route.setLineColor(Color.argb(255, 83, 144, 245));
+                        seven_route.addPoint(seven_line[i]);
+                        seven_route.addPoint(seven_line[i + 1]);
+                        mapView.addPolyline(seven_route);
+                    }
+                }
+                else {
+                    for (int i = start_i; i > finish_i; i--) {
+                        MapPolyline seven_route = new MapPolyline();
+                        seven_route.setLineColor(Color.argb(255, 83, 144, 245));
+                        seven_route.addPoint(seven_line[i]);
+                        seven_route.addPoint(seven_line[i - 1]);
+                        mapView.addPolyline(seven_route);
+                    }
+                }
 
             }
         });
@@ -151,11 +326,17 @@ public class HomeFragment extends Fragment {
         void onInputHome_finish_Sent(CharSequence finishinput);
         void onInputHome_polyline_Sent(CharSequence polylineinput);
 
-
-
     }
 
+    public static void setStart(String text){
+        CharSequence temp=text;
+        editText.setText(temp);
+    }
 
+    public static void setfinish(String text){
+        CharSequence temp=text;
+        editText2.setText(temp);
+    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

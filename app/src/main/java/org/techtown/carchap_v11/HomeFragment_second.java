@@ -66,6 +66,7 @@ public class HomeFragment_second extends Fragment {
     static ArrayAdapter<Listview_location_Item> adapter;
     static ListView mlistview;
 
+    static String place_name_3;
     public HomeFragment_second() {
         // Required empty public constructor
     }
@@ -171,6 +172,7 @@ public class HomeFragment_second extends Fragment {
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     FragmentTransaction replace = fragmentTransaction.replace(main_frame, homeFragment_third);
 
+                    place_name_3=data.get(i).toString();
                     //data.get(i)
                     //fragment 키보드 조정
                     InputMethodManager mInputMethodManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
